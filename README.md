@@ -1,6 +1,6 @@
 ---
 title: "Stat 850 Project"
-author: "Firstname Lastname, Firstname Lastname, ..."
+author: "Samitha Herath, Fangfang Zhang"
 format: md
 ---
 
