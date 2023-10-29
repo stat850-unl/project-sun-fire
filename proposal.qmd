@@ -21,17 +21,27 @@ In the proposal as in the final report, all of your code chunks should be set so
 
 ### Source
 
-The data we are using in this project comes from \[link to web site\].
+The data we are using in this project comes from \[https://catalog.data.gov/dataset/popular-baby-names\].
 
 If you cannot link directly to the data file, then you need to additionally describe how someone could acquire the same data:
 
-> You can download the data directly using \[process\]
+> You can download the data directly using \[https://data.cityofnewyork.us/Health/Popular-Baby-Names/25th-nujf\].
+
+This link is NYC OpenData, you can easily access the dataset and view the short description of it.
 
 Provide some code to read in the data (either stored in the repository or read in directly from the source).
 
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+data_url <- "https://data.cityofnewyork.us/api/views/25th-nujf/rows.csv?accessType=DOWNLOAD"
+data <- read.csv(data_url)
+
+# if you want to see the first several rows of this data set, use the following code
+head(data)
+```
+
 ### Description
 
-This dataset contains information about ...
+This data set contains information about ...
 
 It was collected from ...
 
@@ -39,44 +49,45 @@ Here is a data dictionary showing each variable, the type of variable, units, an
 
 Note: this is an example table, please modify to actually match your data. Ensure that all of the same information is represented.
 
-+-------------+---------------------------------------------------------+-------------+-------+---------------------------------------------------------------+
-| Name        | Description                                             | Type        | Units | Range/Values                                                  |
-+=============+=========================================================+=============+=======+===============================================================+
-| day_of_week | The day of the week on which the observation took place | categorical | NA    | 0 = Sunday\                                                   |
-|             |                                                         |             |       | 1 = Monday\                                                   |
-|             |                                                         |             |       | ...\                                                          |
-|             |                                                         |             |       | 6 = Saturday\                                                 |
-|             |                                                         |             |       | 7 = Unknown                                                   |
-+-------------+---------------------------------------------------------+-------------+-------+---------------------------------------------------------------+
-| weight      | The weight of the individual                            | numeric     | lbs   | 0 - 300 (max weight measurable on the scale used)\            |
-|             |                                                         |             |       | NA indicates missing data                                     |
-+-------------+---------------------------------------------------------+-------------+-------+---------------------------------------------------------------+
-| time        | The time of the observation                             | numeric     | HHMM  | 0000 corresponds to midnight,                                 |
-|             |                                                         |             |       |                                                               |
-|             |                                                         |             |       | 2359 corresponds to 1 minute before midnight on the same day. |
-+-------------+---------------------------------------------------------+-------------+-------+---------------------------------------------------------------+
+| Name               | Description                                                            | Type        | Units | Range/Values                                                                                                                 |
+|---------------|---------------|---------------|---------------|---------------|
+| Year of birth      | year of the baby's birth                                               | numeric     | NA    | 2011 to 2019                                                                                                                 |
+| Gender             | gender/sex of a baby                                                   | categorical | NA    | male or female                                                                                                               |
+| Ethnicity          | mother's ethnicity                                                     | categorical | NA    | HISPANIC; WHITE NON HISPANIC; ASIAN AND PACIFIC ISLANDER; BLACK NON HISPANIC; ASIAN AND PACI; BLACK NON HISP; WHITE NON HISP |
+| Child.s.First.Name | first name of a baby                                                   | categorical | NA    | different names of babies                                                                                                    |
+| Count              | the frequency of names were collected through civil birth registration | numeric     | NA    | the frequencies are between 10 and 426                                                                                       |
+| Rank               | the ranking of each name                                               | ordinal     | NA    | ranking is from 1 to 102                                                                                                     |
 
 ## Project Goals
 
 Describe why this data is interesting and what you hope to do with it.
 
-We will use \[dataset\] to explore the following topics:
+We will use \[Popular_Baby_Names\] to explore the following topics:
 
--   interesting thing 1
--   interesting thing 2
--   ...
+-   What are the popular first names in each ethnic group, and each gender?
+-   Is there a difference in the length of the names between male and female?
+-   "Are there any trends (increasing, decreasing, or no change) in the length of babies' first names over time?"
+-   Do different ethnic groups have preferences for names?
 
 We expect to create
 
--   description of some of the graphs you might create
--   a shiny application
--   a statistical model
--   ...
+-   a histogram/bargraph/line graph to show the frequency of each name based on the year, ethnic group and gender.
+-   may need to calculate the average length of names for male and female (or different ethnic groups)
+-   may use statistical model to see if there is a difference between male and female
+-   Graphical Exploratory Data Analysis (EDA) method description of
+-   may use a time plot to show the trend of the popular names over time
+-   
 
 ## Division of Labor
 
-Describe how you plan to work together as a team. Set intermediate deadlines - what do you plan to have done by the project check-in? The more you have done (report/slides/code), the better feedback I can give you.
+We will divide the objectives into two halves. Each team member is expected to complete their proportion of the project by November 11 or one week earlier. The report should be finalized by November 18. As long as you are coding, you are also expected to write the draft of this project.
+
+Additionally, we also need to set a small weekly objectives to monitor our progress. To enhance the communication, we will use student mail and Canvas. Finally, we will our individuals contributes to complete the report and presentation. The presentation is expected to be done by November 25.
+
+*Note: we are expected to complete our tasks one week ahead of the due date because we have differing schedules. This adjustment is necessary to accommodate any potential time conflicts.*
 
 ## Additional Comments
 
-What concerns do you have about this project? This is your place to provide feedback about the project guidelines and ask clarifying questions for me to address either individually or in class, if the question is relevant to everyone.
+Is it appropriate to use a hypothesis testing in our project regarding the mean length of names between male and female? We plan to perform a T test to show what we find. We can also use graph to display and explain it. The graphing method is obvious to see the result but we are considering to use a hypothesis testing to prove or disprove the difference.
+
+
