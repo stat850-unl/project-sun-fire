@@ -62,24 +62,19 @@ Describe why this data is interesting and what you hope to do with it.
 
 We will use \[Popular_Baby_Names\] to explore the following topics:
 
--   What are the popular first names in each ethnic group, and each gender?
--   Is there a difference in the length of the names between male and female?
--   "Are there any trends (increasing, decreasing, or no change) in the length of babies' first names over time?"
--   Do different ethnic groups have preferences for names?
--   How have naming trends evolved over the years for different genders and ethnicities?
--   Which names are most commonly chosen within specific ethnic groups? and Are there any notable variations in naming preferences among different ethnicities?
+-   What are the top 10 popular first names in each gender? in each ethnic groups? Are there any similarities?
+-   Are there any trends (increasing, decreasing, or no change) in the average length of babies' first names over time?
+-   Are there names that have consistently remained popular over several years or decades?
 -   How does the ranking (rank) of a name change over time?
 -   A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
--   Are there names that have consistently remained popular over several years or decades?
 
-We expect to create
+We expect to create/calculate
 
 -   a histogram/bargraph/line graph to show the frequency of each name based on the year, ethnic group and gender.
--   may need to calculate the average length of names for male and female (or different ethnic groups)
--   may use statistical model to see if there is a difference between male and female
+-   the average length of names for male and female (or different ethnic groups)
+-   a time plot to show the trend of the average length of popular names in different genders
 -   Graphical Exploratory Data Analysis (EDA) method to explore the data set and understand the underlying trends and characteristics.
--   may use a time plot to show the trend of the popular names over time overall and with respect to different categories.
--   We can tryo to find any correlations of names with variables like gender and ethnicity.
+-   we can try to find any correlations of names with variables like gender and ethnicity.
 
 ## Division of Labor
 
@@ -91,4 +86,4 @@ Additionally, we also need to set a small weekly objectives to monitor our progr
 
 ## Additional Comments
 
-Is it appropriate to use a hypothesis testing in our project regarding the mean length of names between male and female? We plan to perform a T test to show what we find. We can also use graph to display and explain it. The graphing method is obvious to see the result but we are considering to use a hypothesis testing to prove or disprove the difference.
+We have two question about what we are going to investigate but finally we figure it out.
