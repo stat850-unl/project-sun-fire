@@ -41,13 +41,11 @@ head(data)
 
 ### Description
 
-This data set contains information about ...
+This data set contains information about the popularity of baby names categorized by gender and ethnic group. Each entry indicates the ranking of a name based on its frequency, providing insights into the relative popularity of each name.
 
-It was collected from ...
+It was obtained from official civil birth registration records.
 
 Here is a data dictionary showing each variable, the type of variable, units, and range of values that are possible:
-
-Note: this is an example table, please modify to actually match your data. Ensure that all of the same information is represented.
 
 | Name               | Description                                                            | Type        | Units | Range/Values                                                                                                                 |
 |---------------|---------------|---------------|---------------|---------------|
@@ -68,15 +66,20 @@ We will use \[Popular_Baby_Names\] to explore the following topics:
 -   Is there a difference in the length of the names between male and female?
 -   "Are there any trends (increasing, decreasing, or no change) in the length of babies' first names over time?"
 -   Do different ethnic groups have preferences for names?
+-   How have naming trends evolved over the years for different genders and ethnicities?
+-   Which names are most commonly chosen within specific ethnic groups? and Are there any notable variations in naming preferences among different ethnicities?
+-   How does the ranking (rank) of a name change over time?
+-   A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
+-   Are there names that have consistently remained popular over several years or decades?
 
 We expect to create
 
 -   a histogram/bargraph/line graph to show the frequency of each name based on the year, ethnic group and gender.
 -   may need to calculate the average length of names for male and female (or different ethnic groups)
 -   may use statistical model to see if there is a difference between male and female
--   Graphical Exploratory Data Analysis (EDA) method description of
--   may use a time plot to show the trend of the popular names over time
--   
+-   Graphical Exploratory Data Analysis (EDA) method to explore the data set and understand the underlying trends and characteristics.
+-   may use a time plot to show the trend of the popular names over time overall and with respect to different categories.
+-   We can tryo to find any correlations of names with variables like gender and ethnicity.
 
 ## Division of Labor
 
@@ -89,5 +92,3 @@ Additionally, we also need to set a small weekly objectives to monitor our progr
 ## Additional Comments
 
 Is it appropriate to use a hypothesis testing in our project regarding the mean length of names between male and female? We plan to perform a T test to show what we find. We can also use graph to display and explain it. The graphing method is obvious to see the result but we are considering to use a hypothesis testing to prove or disprove the difference.
-
-
