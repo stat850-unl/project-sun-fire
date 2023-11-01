@@ -1,21 +1,9 @@
 ---
 title: "Stat 850 Project Proposal"
+author: "Fangfang Zhang, Samitha Herath"
 format: html
 editor: visual
 ---
-
-## Instructions
-
-Each member of your team should modify this document in some way and push their modifications to the repository in a separate commit. This will ensure that you have set your repository up in a way that ensures all group members are working with the same repository.
-
-Please ensure that you have set your git name and email address on your computer by **modifying** the following commands and running them in the terminal:
-
-```         
-git config --global user.name "Mona Lisa"
-git config --global user.email "mona@lisa.com"
-```
-
-In the proposal as in the final report, all of your code chunks should be set so that `echo = F`, which prevents the code from being printed in the report. You should also set `message = F, warning = F`, which will reduce the amount of additional output which is present in the report. You can customize the execution of code in quarto by using additional options, some of which are detailed [here](https://quarto.org/docs/computations/execution-options.html).
 
 ## Data
 
@@ -25,11 +13,7 @@ The data we are using in this project comes from \[https://catalog.data.gov/data
 
 If you cannot link directly to the data file, then you need to additionally describe how someone could acquire the same data:
 
-> You can download the data directly using \[https://data.cityofnewyork.us/Health/Popular-Baby-Names/25th-nujf\].
-
-This link is NYC OpenData, you can easily access the dataset and view the short description of it.
-
-Provide some code to read in the data (either stored in the repository or read in directly from the source).
+> You can download the data directly using [this link](https://data.cityofnewyork.us/Health/Popular-Baby-Names/25th-nujf).
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 data_url <- "https://data.cityofnewyork.us/api/views/25th-nujf/rows.csv?accessType=DOWNLOAD"
@@ -87,3 +71,27 @@ Additionally, we also need to set a small weekly objectives to monitor our progr
 ## Additional Comments
 
 We have two question about what we are going to investigate but finally we figure it out.
+
+
+-----
+
+Comments/grading:
+
+sun-fire$ git fame . --incl=".(q|R)md"
+Processing: 100%|█████████████████████| 4/4 [00:00<00:00, 275.41file/s]
+Total commits: 9
+Total ctimes: 28
+Total files: 6
+Total loc: 325
+| Author                |   loc |   coms |   fils |  distribution   |
+|:----------------------|------:|-------:|-------:|:----------------|
+| github-classroom[bot] |   285 |      1 |      4 | 87.7/11.1/66.7  |
+| Fangfang Zhang        |    35 |      6 |      1 | 10.8/66.7/16.7  |
+| SIHerath              |     5 |      1 |      1 | 1.5/11.1/16.7   |
+| fangfang07            |     0 |      1 |      0 | 0.0/11.1/ 0.0   |
+
+It looks like on one computer Fangfang used, it would be good to update your github username to Fangfang Zhang. That way your commits will all show up together. It's not a huge deal (I can add pretty well) but it's something to think about.
+
+Your plan for the timeline is good! I don't have many concerns, though this dataset is a bit light on numerical variables I think you will be able to do some interesting things. Please be careful about how you handle ethnicity - it is a complicated topic and can be a bit "messy" to clean up the data if the method of coding it on the official form changed during this time period.
+
+It might be interesting to look at different spellings of similar names (e.g. Keily, Kylee, Kylie), if you get a chance and want to challenge yourselves. I'm not sure if you can get all sets of similar spellings automatically (maybe with some sort of phonetic guide or data read in from elsewhere, but that would be a bit complicated) but you could just look at a few common variations that pop up from your EDA.
