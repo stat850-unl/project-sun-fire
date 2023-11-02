@@ -52,6 +52,8 @@ We will use \[Popular_Baby_Names\] to explore the following topics:
 -   How does the ranking (rank) of a name change over time?
 -   A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
 
+*note: when analyzing the ethnic groups, we saw some groups have the similar names and they are exactly the same. We combined them*
+
 We expect to create/calculate
 
 -   a histogram/bargraph/line graph to show the frequency of each name based on the year, ethnic group and gender.
@@ -72,23 +74,11 @@ Additionally, we also need to set a small weekly objectives to monitor our progr
 
 We have two question about what we are going to investigate but finally we figure it out.
 
-
------
+------------------------------------------------------------------------
 
 Comments/grading:
 
-sun-fire$ git fame . --incl=".(q|R)md"
-Processing: 100%|█████████████████████| 4/4 [00:00<00:00, 275.41file/s]
-Total commits: 9
-Total ctimes: 28
-Total files: 6
-Total loc: 325
-| Author                |   loc |   coms |   fils |  distribution   |
-|:----------------------|------:|-------:|-------:|:----------------|
-| github-classroom[bot] |   285 |      1 |      4 | 87.7/11.1/66.7  |
-| Fangfang Zhang        |    35 |      6 |      1 | 10.8/66.7/16.7  |
-| SIHerath              |     5 |      1 |      1 | 1.5/11.1/16.7   |
-| fangfang07            |     0 |      1 |      0 | 0.0/11.1/ 0.0   |
+sun-fire\$ git fame . --incl=".(q\|R)md" Processing: 100%\|█████████████████████\| 4/4 \[00:00\<00:00, 275.41file/s\] Total commits: 9 Total ctimes: 28 Total files: 6 Total loc: 325 \| Author \| loc \| coms \| fils \| distribution \| \|:----------------------\|------:\|-------:\|-------:\|:----------------\| \| github-classroom\[bot\] \| 285 \| 1 \| 4 \| 87.7/11.1/66.7 \| \| Fangfang Zhang \| 35 \| 6 \| 1 \| 10.8/66.7/16.7 \| \| SIHerath \| 5 \| 1 \| 1 \| 1.5/11.1/16.7 \| \| fangfang07 \| 0 \| 1 \| 0 \| 0.0/11.1/ 0.0 \|
 
 It looks like on one computer Fangfang used, it would be good to update your github username to Fangfang Zhang. That way your commits will all show up together. It's not a huge deal (I can add pretty well) but it's something to think about.
 
