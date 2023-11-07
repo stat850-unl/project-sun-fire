@@ -21,20 +21,70 @@ if (!"remotes" %in% installed.packages()) {
 # This is how to do it for a package that's only on github
 if (!"emo" %in% installed.packages()) {
   remotes::install_github("hadley/emo")
+}  
 
 ```
 
 ```{r}
+BabyNames <- read.csv("Popular_Baby_Names.csv")
+colnames(BabyNames)
+str(BabyNames)
+#unique_Ethic <- unique(BabyNames$Ethnicity); unique_Ethic
 
+sum(is.na(BabyNames)) # check missing values; no missing values
+
+library(dplyr)
+# distinct this dataset; remove the repeated rows based on X element 
+D_BabyNames <- BabyNames %>% distinct() 
+
+updated_data <- D_BabyNames %>% group_by(Ethnicity) %>% summarise()
+# count frequency of each ethnic group
+updated_data1 <- D_BabyNames %>% group_by(Ethnicity) %>% count()
+
+
+BabyNames$Child.s.First.Name <- tolower(BabyNames$Child.s.First.Name)
+# Using unique function to get the same dataset as D_BabyNames
+babynames<- unique(BabyNames) # remove the repeated rows; 
+#babynames$Child.s.First.Name <- tolower(babynames$Child.s.First.Name)
+
+# combine the ethnic groups b/c they have the same meaning
+modified_data <- babynames %>% mutate(Ethnicity = recode(Ethnicity, "BLACK NON HISP" = "BLACK NON HISPANIC" ,
+                                                      "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER",
+                                                      "WHITE NON HISP" = "WHITE NON HISPANIC" )) 
+
+# check the result; there are total 6 levels in the ethnic groups
+M_data <- modified_data %>% group_by(Ethnicity) %>% count()
 ```
 
 ## Introduction
 
-Introduce your dataset and basic questions for exploration. Explain any unique approaches you will take or any interesting features of your dataset that you have to overcome. Cite the source of your dataset, and briefly discuss how it was collected.
+This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019. Each row represents one baby's name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI `, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`.  They are the same ethic groups and we need to combine them before we perform analysis regarding our interest. 
 
-Discuss the variables in the dataset and if there are anomalies in the variables, provide some visual assessment of the anomalies and explain how they may have arisen. You should cover most of the information in your proposal data section, but should primarily use paragraphs and not lists/tables (the exception may be a list of e.g. items which were measured).
+After import the dataset and no missing values were found. 
+
+Firstly, start with a simple question. Display the top ten popular first names in each gender and ethnic groups and we are going to use a barchart to display it. From the graphs, state any common results. Any results like different ethnic groups have totally different popular names? 
+
+We want to investigate whether the names that have consistently remained popular over several years or decades. In this question, we need to use inner_join function to see if we can get the common names over time. This analysis need much time than previous questions. (note: 2011 to 2019, 9 years, summarize 9 dataframes with popular names between genders/ethnic groups) Display names in genders/ethnic groups each year in interactive graph, then display to merged data. 
+
+Besides, we will display a time plot to show the average length of first names recorded in the dataset from 2011 to 2019. Analyze any trends here such as the increasing or decreasing trend. Why it changes as time moves on. Short names are popular and this is a trend today.  (note: analyze the average of length of first names between genders from 2011 to 2019) To calculate the length of each names, apply what we learned in the class and use dyply package to calculate the average length. Then display the time plot which the horizontal axis is time, the vertical axis is the average length of first names.
+
+### Introduce your dataset and basic questions for exploration. Explain any unique approaches you will take or any interesting features of your dataset that you have to overcome. Cite the source of your dataset, and briefly discuss how it was collected.
+
+### Discuss the variables in the dataset and if there are anomalies in the variables, provide some visual assessment of the anomalies and explain how they may have arisen. You should cover most of the information in your proposal data section, but should primarily use paragraphs and not lists/tables (the exception may be a list of e.g. items which were measured).
+
+
+Draft of Samitha 
+-   How does the ranking (rank) of a name change over time?
+-   A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
+
+Feedback from professor:
+"It might be interesting to look at different spellings of similar names (e.g. Keily, Kylee, Kylie)"
+no need to identify all, some are good too. 
 
 ## Methods
+
+Use `str()` function to display the structure of the data, identify the categorical varaibles and quantitative variables. Use `sum()` to see any missing values in the data. There is no missing values and we also see some repeated rows, so we use `distinct()` to get unique rows in the raw data.  
+
 
 Describe any data cleaning and rearranging you needed to do to get your dataset into a workable form. Make sure to cite any packages which were important in your data cleaning process in this section. For instance, if you used dplyr, then it would be appropriate to say something like
 
@@ -46,10 +96,88 @@ Here, you want to introduce the first topic you want to explore with your (newly
 
 You can add options to executable code like this
 
+The first question is what are the top 10 popular first names in each gender and ethnic groups? The appropriate graph is bar chart. 
+
 ```{r}
 #| echo: false
-2 * 2
+
+library(dplyr)
+# select top 10 female's names
+vf_data <- modified_data %>% 
+  filter(Gender == "FEMALE") %>% 
+  group_by(Child.s.First.Name, Gender) %>% 
+  summarise(freq = sum (Count),  .groups = "drop") %>% 
+  arrange(desc(freq)) %>% head(10)
+
+# select top 10 male's names
+vm_data <- modified_data %>% 
+  filter(Gender == "MALE") %>% 
+  group_by(Child.s.First.Name, Gender) %>%
+  summarise(freq = sum(Count), .groups = "drop") %>% 
+  arrange(desc(freq)) %>% 
+  head(10)
 ```
+
+
+```{r}
+#| echo: false
+
+
+# top 10 names in ethnic group of API
+e1_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER") %>% group_by(Child.s.First.Name, Ethnicity) %>% summarise(freq_API = sum(Count), .groups = "drop") %>% arrange(desc(freq_API)) %>% head(n=10)
+
+
+# top 10 names in ethnic group of BNH
+e2_data <- modified_data %>% filter(Ethnicity == "BLACK NON HISPANIC") %>% group_by(Child.s.First.Name, Ethnicity) %>% summarise(freq_API = sum(Count), .groups = "drop") %>% arrange(desc(freq_API)) %>% head(n=10)
+
+
+# top 10 names in ethnic group of H
+e3_data <- modified_data %>% filter(Ethnicity == "HISPANIC") %>% group_by(Child.s.First.Name, Ethnicity) %>% summarise(freq_API = sum(Count), .groups = "drop") %>% arrange(desc(freq_API)) %>% head(n=10)
+
+
+# top 10 names in ethnic group of WNH
+e4_data <- modified_data %>% filter(Ethnicity == "WHITE NON HISPANIC") %>% group_by(Child.s.First.Name, Ethnicity) %>% summarise(freq_API = sum(Count), .groups = "drop") %>% arrange(desc(freq_API)) %>% head(n=10)
+```
+
+
+
+### miss top 10 names in different ethnic groups between genders & Plots (update Nov. 10th)
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows the top 10 first names between males and females."
+#| echo: false
+
+library(ggplot2)
+
+vf_data$Child.s.First.Name <-factor(vf_data$Child.s.First.Name, levels = vf_data$Child.s.First.Name) 
+
+ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
+  geom_bar(stat="identity", fill = 'hotpink') +
+  theme(axis.text.x = element_text(angle =45, hjust = 1)) +
+  labs(title = "Top 10 Popular Female Babies' Names", 
+       subtitle = "from 2011 to 2019", 
+       x = "Child's Name", 
+       y = "Count") + 
+    theme_minimal()
+
+vm_data$Child.s.First.Name <-factor(vm_data$Child.s.First.Name, levels = vm_data$Child.s.First.Name) 
+
+ggplot(data=vm_data, aes(x= Child.s.First.Name, y=freq)) +
+  geom_bar(stat="identity", fill = 'steelblue2') +
+  theme(axis.text.x = element_text(angle =45, hjust = 1)) +
+  labs(title = "Top 10 Popular Male Babies' Names", 
+       subtitle = "from 2011 to 2019", 
+       x = "Child's Name", 
+       y = "Count") + 
+    theme_minimal()
+```
+
+
+
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
