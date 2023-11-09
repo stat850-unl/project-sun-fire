@@ -32,7 +32,7 @@ It was obtained from official civil birth registration records.
 Here is a data dictionary showing each variable, the type of variable, units, and range of values that are possible:
 
 | Name               | Description                                                            | Type        | Units | Range/Values                                                                                                                 |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|--------------|----------|----------|-----------------------------|
 | Year of birth      | year of the baby's birth                                               | numeric     | NA    | 2011 to 2019                                                                                                                 |
 | Gender             | gender/sex of a baby                                                   | categorical | NA    | male or female                                                                                                               |
 | Ethnicity          | mother's ethnicity                                                     | categorical | NA    | HISPANIC; WHITE NON HISPANIC; ASIAN AND PACIFIC ISLANDER; BLACK NON HISPANIC; ASIAN AND PACI; BLACK NON HISP; WHITE NON HISP |
@@ -64,9 +64,9 @@ We expect to create/calculate
 
 ## Division of Labor
 
-We will divide the objectives into two halves. Each team member is expected to complete their proportion of the project by November 11 or one week earlier. The report should be finalized by November 18. As long as you are coding, you are also expected to write the draft of this project.
+We will divide the objectives into two halves. Each team member is expected to complete their proportion of the project by **November 11 or one week earlier**. The report should be finalized by **November 18**. As long as you are coding, you are also expected to write the draft of this project.
 
-Additionally, we also need to set a small weekly objectives to monitor our progress. To enhance the communication, we will use student mail and Canvas. Finally, we will our individuals contributes to complete the report and presentation. The presentation is expected to be done by November 25.
+Additionally, we also need to set a small weekly objectives to monitor our progress. To enhance the communication, we will use student mail and Canvas. Finally, we will our individuals contributes to complete the report and presentation. The presentation is expected to be done by **November 25**.
 
 *Note: we are expected to complete our tasks one week ahead of the due date because we have differing schedules. This adjustment is necessary to accommodate any potential time conflicts.*
 
