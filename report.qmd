@@ -58,35 +58,32 @@ M_data <- modified_data %>% group_by(Ethnicity) %>% count()
 
 ## Introduction
 
-This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019. Each row represents one baby's name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI `, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`.  They are the same ethic groups and we need to combine them before we perform analysis regarding our interest. 
+This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration. There is other information about how the data.citynewyork.us collected the data. But we think they may collect the data from online registration system. Each row represents one baby's first name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`. They are the same ethic groups but with different names, so we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis.
 
-After import the dataset and no missing values were found. 
+In the step of data cleaning, we import the data and found there is no missing values in this data set. We also combined the ethic groups with the same meaning of names, finally, there are total 2 quantitative variables, `Year of Birth` and `Count`; 4 categorical variables, `Gender`, `Ethnicity`, `Child.s.First.Name` and `Rank`, 
 
-Firstly, start with a simple question. Display the top ten popular first names in each gender and ethnic groups and we are going to use a barchart to display it. From the graphs, state any common results. Any results like different ethnic groups have totally different popular names? 
+Firstly, start with a simple question. Display the top ten popular first names in each gender and ethnic groups and we are going to use a bar chart to display it. People can easily read these two graphs, the top 10 popular baby's first names were displayed on the horizontal axis, the occurrence of each baby's first names was displayed on the vertical line. From the bar graphs regarding different ethnic groups, there are 4 bars charts for 4 different ethnic groups. It is easy to read the top 10 baby's first name from each bar group but it may not easy to read a more common results at once. We also plot a bar graph displaying top 10 baby's first name based on a joint data set. 
 
-We want to investigate whether the names that have consistently remained popular over several years or decades. In this question, we need to use inner_join function to see if we can get the common names over time. This analysis need much time than previous questions. (note: 2011 to 2019, 9 years, summarize 9 dataframes with popular names between genders/ethnic groups) Display names in genders/ethnic groups each year in interactive graph, then display to merged data. 
+We want to investigate whether the names that have consistently remained popular over several years or decades. In this question, we need to use inner_join function to see if we can get the common names over time. This analysis need much time than previous questions. (note: 2011 to 2019, 9 years, summarize 9 dataframes with popular names between genders/ethnic groups) Display names in genders/ethnic groups each year in interactive graph, then display to merged data.
 
-Besides, we will display a time plot to show the average length of first names recorded in the dataset from 2011 to 2019. Analyze any trends here such as the increasing or decreasing trend. Why it changes as time moves on. Short names are popular and this is a trend today.  (note: analyze the average of length of first names between genders from 2011 to 2019) To calculate the length of each names, apply what we learned in the class and use dyply package to calculate the average length. Then display the time plot which the horizontal axis is time, the vertical axis is the average length of first names.
+##From the graphs, state any common results. Any results like different ethnic groups have totally different popular names?# Answer this after displaying plot 11/09
+
+Besides, we will display a time plot to show the average length of first names recorded in the dataset from 2011 to 2019. Analyze any trends here such as the increasing or decreasing trend. Why it changes as time moves on. Short names are popular and this is a trend today. (note: analyze the average of length of first names between genders from 2011 to 2019) To calculate the length of each names, apply what we learned in the class and use dyply package to calculate the average length. Then display the time plot which the horizontal axis is time, the vertical axis is the average length of first names.
+
 
 ### Introduce your dataset and basic questions for exploration. Explain any unique approaches you will take or any interesting features of your dataset that you have to overcome. Cite the source of your dataset, and briefly discuss how it was collected.
 
 ### Discuss the variables in the dataset and if there are anomalies in the variables, provide some visual assessment of the anomalies and explain how they may have arisen. You should cover most of the information in your proposal data section, but should primarily use paragraphs and not lists/tables (the exception may be a list of e.g. items which were measured).
 
+Draft of Samitha - How does the ranking (rank) of a name change over time? - A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
 
-Draft of Samitha 
--   How does the ranking (rank) of a name change over time?
--   A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
-
-Feedback from professor:
-"It might be interesting to look at different spellings of similar names (e.g. Keily, Kylee, Kylie)"
-no need to identify all, some are good too. 
+Feedback from professor: "It might be interesting to look at different spellings of similar names (e.g. Keily, Kylee, Kylie)" no need to identify all, some are good too.
 
 ## Methods
 
-Use `str()` function to display the structure of the data, identify the categorical varaibles and quantitative variables. Use `sum()` to see any missing values in the data. There is no missing values and we also see some repeated rows, so we use `distinct()` to get unique rows in the raw data.  
+Use `str()` function to display the structure of the data, identify the categorical variables and quantitative variables. Use `sum()` to see any missing values in the data. There is no missing values and we also see some repeated rows, so we use `distinct()` to get unique rows in the raw data.
 
-
-Describe any data cleaning and rearranging you needed to do to get your dataset into a workable form. Make sure to cite any packages which were important in your data cleaning process in this section. For instance, if you used dplyr, then it would be appropriate to say something like
+### Describe any data cleaning and rearranging you needed to do to get your dataset into a workable form. Make sure to cite any packages which were important in your data cleaning process in this section. For instance, if you used dplyr, then it would be appropriate to say something like
 
 > we used the group-apply-combine paradigm with the `dplyr` functions `group_by` and `summarize` [@dplyr-package] to generate a dataset for each day of the observation period from the 15-minute interval observations in the raw data set.
 
@@ -96,7 +93,7 @@ Here, you want to introduce the first topic you want to explore with your (newly
 
 You can add options to executable code like this
 
-The first question is what are the top 10 popular first names in each gender and ethnic groups? The appropriate graph is bar chart. 
+The first question is what are the top 10 popular first names in each gender and ethnic groups? The appropriate graph is bar chart.
 
 ```{r}
 #| echo: false
@@ -119,12 +116,14 @@ vm_data <- modified_data %>%
 ```
 
 
+
+
 ```{r}
 #| echo: false
 
 
 # top 10 names in ethnic group of API
-e1_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER") %>% group_by(Child.s.First.Name, Ethnicity) %>% summarise(freq_API = sum(Count), .groups = "drop") %>% arrange(desc(freq_API)) %>% head(n=10)
+em1_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count)) %>% arrange(desc(freqM_API)) %>% slice_head(n=10)
 
 
 # top 10 names in ethnic group of BNH
@@ -139,9 +138,7 @@ e3_data <- modified_data %>% filter(Ethnicity == "HISPANIC") %>% group_by(Child.
 e4_data <- modified_data %>% filter(Ethnicity == "WHITE NON HISPANIC") %>% group_by(Child.s.First.Name, Ethnicity) %>% summarise(freq_API = sum(Count), .groups = "drop") %>% arrange(desc(freq_API)) %>% head(n=10)
 ```
 
-
-
-### miss top 10 names in different ethnic groups between genders & Plots (update Nov. 10th)
+# bar graph of top 10 popular baby's first name between girls and boys
 
 ```{r}
 #| label: fig-genders
@@ -160,7 +157,7 @@ ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
   theme(axis.text.x = element_text(angle =45, hjust = 1)) +
   labs(title = "Top 10 Popular Female Babies' Names", 
        subtitle = "from 2011 to 2019", 
-       x = "Child's Name", 
+       x = "Child's First Name", 
        y = "Count") + 
     theme_minimal()
 
@@ -171,13 +168,233 @@ ggplot(data=vm_data, aes(x= Child.s.First.Name, y=freq)) +
   theme(axis.text.x = element_text(angle =45, hjust = 1)) +
   labs(title = "Top 10 Popular Male Babies' Names", 
        subtitle = "from 2011 to 2019", 
-       x = "Child's Name", 
+       x = "Child's First Name", 
        y = "Count") + 
     theme_minimal()
 ```
 
 
+# bar graph of top 10 names in different ethnic groups between boys and girls
 
+```{r}
+#| echo: false
+
+# top 10 names in ethnic group of API between Males and Females
+em1_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count), .groups = "drop") %>% arrange(desc(freqM_API)) %>% head(n=10)
+
+ef1_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_API = sum(Count)) %>% arrange(desc(freqF_API)) %>% slice_head(n=10)
+
+
+# top 10 names in ethnic group of BNH between Males and Females
+em2_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% arrange(desc(freqM_BNH)) %>% slice_head(n=10)
+
+ef2_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_BNH = sum(Count)) %>% arrange(desc(freqF_BNH)) %>% slice_head(n=10)
+
+# top 10 names in ethnic group of H between Males and Females
+em3_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_H = sum(Count)) %>% arrange(desc(freqM_H)) %>% slice_head(n=10)
+
+ef3_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_H = sum(Count)) %>% arrange(desc(freqF_H)) %>% slice_head(n=10)
+
+# top 10 names in ethnic group of WNH between Males and Females
+em4_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_WNH = sum(Count)) %>% arrange(desc(freqM_WNH)) %>% slice_head(n=10)
+
+ef4_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_WNH = sum(Count)) %>% arrange(desc(freqF_WNH)) %>% slice_head(n=10)
+
+```
+
+
+
+# bar graph of top 10 names in ALL ethnic groups between boys and girls
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular male babies' first names in Asian and Pacific Islander"
+#| echo: false
+
+
+# display in ordered by count
+em1_data$Child.s.First.Name <-factor(em1_data$Child.s.First.Name, levels = em1_data$Child.s.First.Name) 
+
+ggplot(data = em1_data, aes(x = Child.s.First.Name, y = freqM_API)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Male Babies' First Names in ASIAN AND PACIFIC ISLANDER",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular female babies' first names in Asian and Pacific Islander"
+#| echo: false
+
+
+# display in ordered by count
+ef1_data$Child.s.First.Name <-factor(ef1_data$Child.s.First.Name, levels = ef1_data$Child.s.First.Name) 
+
+ggplot(data = ef1_data, aes(x = Child.s.First.Name, y = freqF_API)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Female Babies' First Names in ASIAN AND PACIFIC ISLANDER",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular male babies' first names in Black non Hispanic"
+#| echo: false
+
+
+# display in ordered by count
+em2_data$Child.s.First.Name <-factor(em2_data$Child.s.First.Name, levels = em2_data$Child.s.First.Name) 
+
+ggplot(data = em2_data, aes(x = Child.s.First.Name, y = freqM_BNH)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Male Babies' First Names in Black non Hispanic",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular female babies' first names in Black non Hispanic"
+#| echo: false
+
+
+# display in ordered by count
+ef2_data$Child.s.First.Name <-factor(ef2_data$Child.s.First.Name, levels = ef2_data$Child.s.First.Name) 
+
+ggplot(data = ef2_data, aes(x = Child.s.First.Name, y = freqF_BNH)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Female Babies' First Names in Black non Hispanic",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular male babies' first names in Hispanic"
+#| echo: false
+
+
+# display in ordered by count
+em3_data$Child.s.First.Name <-factor(em3_data$Child.s.First.Name, levels = em3_data$Child.s.First.Name) 
+
+ggplot(data = em3_data, aes(x = Child.s.First.Name, y = freqM_H)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Male Babies' First Names in Hispanic",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular female babies' first names in Hispanic"
+#| echo: false
+
+
+# display in ordered by count
+ef3_data$Child.s.First.Name <-factor(ef3_data$Child.s.First.Name, levels = ef3_data$Child.s.First.Name) 
+
+ggplot(data = ef3_data, aes(x = Child.s.First.Name, y = freqF_H)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Female Babies' First Names in Hispanic",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular male babies' first names in White Non Hispanic"
+#| echo: false
+
+
+# display in ordered by count
+em4_data$Child.s.First.Name <-factor(em4_data$Child.s.First.Name, levels = em4_data$Child.s.First.Name) 
+
+ggplot(data = em4_data, aes(x = Child.s.First.Name, y = freqM_WNH)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Male Babies' First Names in White Non Hispanic",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "This figure shows top 10 popular female babies' first names in White Non Hispanic"
+#| echo: false
+
+
+# display in ordered by count
+ef4_data$Child.s.First.Name <-factor(ef4_data$Child.s.First.Name, levels = ef4_data$Child.s.First.Name) 
+
+ggplot(data = ef4_data, aes(x = Child.s.First.Name, y = freqF_WNH)) + 
+  geom_bar(stat = "identity") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  labs(title = "Top 10 Popular Female Babies' First Names in White Non Hispanic",
+       x = "Name",
+       y = "Count") + 
+      theme_minimal()
+```
+
+
+
+### Time Plot of Average Length of First Names Over Time
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
