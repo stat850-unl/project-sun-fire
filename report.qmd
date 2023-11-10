@@ -58,7 +58,7 @@ M_data <- modified_data %>% group_by(Ethnicity) %>% count()
 
 ## Introduction
 
-This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration. There is other information about how the data.citynewyork.us collected the data. But we think they may collect the data from online registration system. Each row represents one baby's first name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`. They are the same ethic groups but with different names, so we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis. *put ethnic group definition here; also reference...*
+This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration. There is other information about how the data.citynewyork.us collected the data. But we think they may collect the data from online registration system. Each row represents one baby's first name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`. They are the same ethic groups but with different names, so we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis. *put ethnic group definition here; also reference...from online*
 
 In the step of data cleaning, we import the data and found there is no missing values in this data set. We also combined the ethic groups with the same meaning of names, finally, there are total 2 quantitative variables, `Year of Birth` and `Count`; 4 categorical variables, `Gender`, `Ethnicity`, `Child.s.First.Name` and `Rank`.
 
@@ -66,7 +66,7 @@ Firstly, start with a simple question. Display the top ten popular first names i
 
 We want to investigate whether the names that have consistently remained popular over several years or decades. In this question, we need to use inner_join function to see if we can get the common names over time. This analysis need much time than previous questions. (note: 2011 to 2019, 9 years, summarize 9 dataframes with popular names between genders/ethnic groups) Display names in genders/ethnic groups each year in interactive graph, then display to merged data.
 
-##From the graphs, state any common results. Any results like different ethnic groups have totally different popular names?# Answer this after displaying plot 11/09
+##From the graphs, state any common results. Any results like different ethnic groups have totally different popular names? Answer this after displaying plot.... updated...
 
 Besides, we will display a time plot to show the average length of first names recorded in the dataset from 2011 to 2019. Analyze any trends here such as the increasing or decreasing trend. Why it changes as time moves on. Short names are popular and this is a trend today. (note: analyze the average of length of first names between genders from 2011 to 2019) To calculate the length of each names, apply what we learned in the class and use dyply package to calculate the average length. Then display the time plot which the horizontal axis is time, the vertical axis is the average length of first names.
 
@@ -431,7 +431,7 @@ inner_F22 # Again, cultures difference
 #Plot side by side bar graph
 
 ```{r}
-#| label: fig-genders
+#| label: fig-ethnic
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
@@ -458,7 +458,7 @@ ggplot(data = melt_M1, aes(x = Child.s.First.Name, y = value, fill = variable)) 
 
 
 ```{r}
-#| label: fig-genders
+#| label: fig-ethnic
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
@@ -486,7 +486,7 @@ ggplot(data = melt_M22, aes(x = Child.s.First.Name, y = value, fill = variable))
 
 
 ```{r}
-#| label: fig-genders
+#| label: fig-ethnic
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
@@ -513,7 +513,7 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
 
 
 ```{r}
-#| label: fig-genders
+#| label: fig-ethnic
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
@@ -542,7 +542,7 @@ ggplot(data = melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) 
 
 
 ```{r}
-#| label: fig-genders
+#| label: fig-ethnic
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
@@ -571,9 +571,71 @@ ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable))
 
 ### Time Plot of Average Length of First Names Over Time
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+#| echo: false
 
+library(stringr)
+# calculate the length of letter of each name
+length_data <- modified_data %>% mutate(N.Length = str_count(Child.s.First.Name, "[A-Za-z]")) %>% mutate(T.length = Count * N.Length) 
+# calculate the average number of letters in each year 
+avglength_data <- length_data  %>% group_by(Year.of.Birth, Gender) %>% 
+  summarise(Avg.Letters = mean(N.Length, na.rm = TRUE), .groups = "drop") %>% 
+  arrange(Year.of.Birth, Gender)
+```
+
+
+
+```{r}
+#| label: fig-AverageLength
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows average length of babies' first name for female and male from 2011 to 2019"
+#| echo: false
+
+
+ggplot(data = avglength_data, aes(x = Year.of.Birth, y = Avg.Letters, color = Gender, group = Gender)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = seq(2011, 2019, by=1), limits = c(2011, 2019)) +
+  labs(title = "Average Number of Letters in Babies' Name by Gender", 
+       subtitle = "from 2011 to 2019", 
+       x = "Year", 
+       y = "Average Number of Letters") + 
+    theme_minimal()
+```
+
+
+
+
+### Need to modify.... Cannot remember where I found this reference 
+```{r}
+#| echo: false
+
+babynames %>%
+  filter(name %in% c("William", "Will", "Bill") & sex== "M") %>%
+  ggplot(aes(year, n, colour=name)) + geom_line() + 
+  theme_economist() +
+  xlab("Year") + 
+  ylab("Number of People") +
+  ggtitle("Changes in Popularity of the Name William")
+
+
+```
+
+
+
+
+
+
+
+
+
+#### THIS IS ORIGINAL CODING FROM qmd. FILE
+
+The `echo: false` option disables the printing of code (only output is displayed).
 If you generate a figure, it should have a caption. Here's a demonstration of how to do that:
+
 
 ```{r iris-plot}
 #| label: fig-iris
