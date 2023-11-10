@@ -569,7 +569,7 @@ ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable))
 
 
 
-### Time Plot of Average Length of First Names Over Time
+### Time Plot of Average Length of First Names by Gender
 
 ```{r}
 #| echo: false
@@ -577,10 +577,15 @@ ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable))
 library(stringr)
 # calculate the length of letter of each name
 length_data <- modified_data %>% mutate(N.Length = str_count(Child.s.First.Name, "[A-Za-z]")) %>% mutate(T.length = Count * N.Length) 
-# calculate the average number of letters in each year 
+# calculate the average number of letters in each year for males and females
 avglength_data <- length_data  %>% group_by(Year.of.Birth, Gender) %>% 
   summarise(Avg.Letters = mean(N.Length, na.rm = TRUE), .groups = "drop") %>% 
   arrange(Year.of.Birth, Gender)
+# calculate the average number of letters in each year for each ethnic groups
+avglength_data_ethnic <- length_data  %>% group_by(Year.of.Birth, Ethnicity) %>% 
+  summarise(Avg.Letters = mean(N.Length, na.rm = TRUE), .groups = "drop") %>% 
+  arrange(Year.of.Birth, Ethnicity)
+
 ```
 
 
@@ -606,6 +611,30 @@ ggplot(data = avglength_data, aes(x = Year.of.Birth, y = Avg.Letters, color = Ge
 ```
 
 
+### Time Plot of Average Length of First Names by Ethnic Groups
+```{r}
+#| label: fig-AverageLength
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows average length of babies' first name for different ethnic groups from 2011 to 2019"
+#| echo: false
+
+
+ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, color = Ethnicity, group = Ethnicity)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = seq(2011, 2019, by=1), limits = c(2011, 2019)) +
+  labs(title = "Average Number of Letters in Babies' Name by Ethnicity", 
+       subtitle = "from 2011 to 2019", 
+       x = "Year", 
+       y = "Average Number of Letters") + 
+    theme_minimal()
+```
+
+
+
+### word clouds (interactive graph; ref: 12)
 
 
 ### Need to modify.... Cannot remember where I found this reference 
