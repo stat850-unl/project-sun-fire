@@ -58,9 +58,9 @@ M_data <- modified_data %>% group_by(Ethnicity) %>% count()
 
 ## Introduction
 
-This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration. There is other information about how the data.citynewyork.us collected the data. But we think they may collect the data from online registration system. Each row represents one baby's first name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`. They are the same ethic groups but with different names, so we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis.
+This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration. There is other information about how the data.citynewyork.us collected the data. But we think they may collect the data from online registration system. Each row represents one baby's first name. There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` is the ranking of each baby's name in each year. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISP` and `WHITE NON HISPANIC`. They are the same ethic groups but with different names, so we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis. *put ethnic group definition here; also reference...*
 
-In the step of data cleaning, we import the data and found there is no missing values in this data set. We also combined the ethic groups with the same meaning of names, finally, there are total 2 quantitative variables, `Year of Birth` and `Count`; 4 categorical variables, `Gender`, `Ethnicity`, `Child.s.First.Name` and `Rank`, 
+In the step of data cleaning, we import the data and found there is no missing values in this data set. We also combined the ethic groups with the same meaning of names, finally, there are total 2 quantitative variables, `Year of Birth` and `Count`; 4 categorical variables, `Gender`, `Ethnicity`, `Child.s.First.Name` and `Rank`.
 
 Firstly, start with a simple question. Display the top ten popular first names in each gender and ethnic groups and we are going to use a bar chart to display it. People can easily read these two graphs, the top 10 popular baby's first names were displayed on the horizontal axis, the occurrence of each baby's first names was displayed on the vertical line. From the bar graphs regarding different ethnic groups, there are 4 bars charts for 4 different ethnic groups. It is easy to read the top 10 baby's first name from each bar group but it may not easy to read a more common results at once. We also plot a bar graph displaying top 10 baby's first name based on a joint data set. 
 
@@ -219,7 +219,7 @@ ef4_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name
 em1_data$Child.s.First.Name <-factor(em1_data$Child.s.First.Name, levels = em1_data$Child.s.First.Name) 
 
 ggplot(data = em1_data, aes(x = Child.s.First.Name, y = freqM_API)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightblue') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Male Babies' First Names in ASIAN AND PACIFIC ISLANDER",
        x = "Name",
@@ -244,7 +244,7 @@ ggplot(data = em1_data, aes(x = Child.s.First.Name, y = freqM_API)) +
 ef1_data$Child.s.First.Name <-factor(ef1_data$Child.s.First.Name, levels = ef1_data$Child.s.First.Name) 
 
 ggplot(data = ef1_data, aes(x = Child.s.First.Name, y = freqF_API)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightpink') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Female Babies' First Names in ASIAN AND PACIFIC ISLANDER",
        x = "Name",
@@ -266,7 +266,7 @@ ggplot(data = ef1_data, aes(x = Child.s.First.Name, y = freqF_API)) +
 em2_data$Child.s.First.Name <-factor(em2_data$Child.s.First.Name, levels = em2_data$Child.s.First.Name) 
 
 ggplot(data = em2_data, aes(x = Child.s.First.Name, y = freqM_BNH)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightblue') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Male Babies' First Names in Black non Hispanic",
        x = "Name",
@@ -290,7 +290,7 @@ ggplot(data = em2_data, aes(x = Child.s.First.Name, y = freqM_BNH)) +
 ef2_data$Child.s.First.Name <-factor(ef2_data$Child.s.First.Name, levels = ef2_data$Child.s.First.Name) 
 
 ggplot(data = ef2_data, aes(x = Child.s.First.Name, y = freqF_BNH)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightpink') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Female Babies' First Names in Black non Hispanic",
        x = "Name",
@@ -313,7 +313,7 @@ ggplot(data = ef2_data, aes(x = Child.s.First.Name, y = freqF_BNH)) +
 em3_data$Child.s.First.Name <-factor(em3_data$Child.s.First.Name, levels = em3_data$Child.s.First.Name) 
 
 ggplot(data = em3_data, aes(x = Child.s.First.Name, y = freqM_H)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightblue') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Male Babies' First Names in Hispanic",
        x = "Name",
@@ -337,7 +337,7 @@ ggplot(data = em3_data, aes(x = Child.s.First.Name, y = freqM_H)) +
 ef3_data$Child.s.First.Name <-factor(ef3_data$Child.s.First.Name, levels = ef3_data$Child.s.First.Name) 
 
 ggplot(data = ef3_data, aes(x = Child.s.First.Name, y = freqF_H)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightpink') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Female Babies' First Names in Hispanic",
        x = "Name",
@@ -360,7 +360,7 @@ ggplot(data = ef3_data, aes(x = Child.s.First.Name, y = freqF_H)) +
 em4_data$Child.s.First.Name <-factor(em4_data$Child.s.First.Name, levels = em4_data$Child.s.First.Name) 
 
 ggplot(data = em4_data, aes(x = Child.s.First.Name, y = freqM_WNH)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightblue') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Male Babies' First Names in White Non Hispanic",
        x = "Name",
@@ -384,12 +384,187 @@ ggplot(data = em4_data, aes(x = Child.s.First.Name, y = freqM_WNH)) +
 ef4_data$Child.s.First.Name <-factor(ef4_data$Child.s.First.Name, levels = ef4_data$Child.s.First.Name) 
 
 ggplot(data = ef4_data, aes(x = Child.s.First.Name, y = freqF_WNH)) + 
-  geom_bar(stat = "identity") +  
+  geom_bar(stat = "identity", fill = 'lightpink') +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(title = "Top 10 Popular Female Babies' First Names in White Non Hispanic",
        x = "Name",
        y = "Count") + 
       theme_minimal()
+```
+
+
+
+# merge data sets for all males and females in different 4 ethnic groups
+```{r}
+#| echo: false
+
+library(dplyr)
+
+inner_M1 <- inner_join(em1_data, em3_data, by = "Child.s.First.Name")
+inner_M2 <- inner_join(em2_data, em4_data, by = "Child.s.First.Name") 
+inner_M2 # no common result; why? different culture
+
+# expand dataset with top 20 names
+em22_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% arrange(desc(freqM_BNH)) %>% slice_head(n=20)
+
+em44_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_WNH = sum(Count)) %>% arrange(desc(freqM_WNH)) %>% slice_head(n=20)
+
+
+inner_M22 <- inner_join(em22_data, em44_data, by = "Child.s.First.Name")
+inner_M22 # luckily, we get common results but the culture plays an important role in names
+
+####---------------------------------------------------------------------------------------------####
+
+inner_F1 <- inner_join(ef1_data, ef3_data, by = "Child.s.First.Name")
+inner_F2 <- inner_join(ef2_data, ef4_data, by = "Child.s.First.Name")
+inner_F2 # only one common names
+
+ef22_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_BNH = sum(Count)) %>% arrange(desc(freqF_BNH)) %>% slice_head(n=20)
+
+ef44_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_WNH = sum(Count)) %>% arrange(desc(freqF_WNH)) %>% slice_head(n=20)
+
+inner_F22 <- inner_join(ef22_data, ef44_data, by = "Child.s.First.Name")
+inner_F22 # Again, cultures difference 
+```
+
+
+#Plot side by side bar graph
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows MALES babies' first names in Asian Pacific Islander and Hispanic"
+#| echo: false
+
+
+melt_M1 <- melt(inner_M1, id.vars = 'Child.s.First.Name')
+melt_M1$variable <- as.character(melt_M1$variable )
+melt_M1$variable <- gsub('freqM_API', 'Asian Pacific Islander - Male', melt_M1$variable)
+melt_M1$variable <- gsub('freqM_H', 'Hispanic - Male', melt_M1$variable)
+
+ggplot(data = melt_M1, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Males Frist Name Between Asian Pacific Islander and Hispanic",
+        subtitle = "within top 10", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
+```
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows male babies' first names in Black non-Hispanic and White non-Hispanic"
+#| echo: false
+
+
+melt_M22 <- melt(inner_M22, id.vars = 'Child.s.First.Name')
+melt_M22$variable <- as.character(melt_M22$variable )
+melt_M22$variable <- gsub('freqM_BNH', 'Black non-Hispanic - Male', melt_M22$variable)
+melt_M22$variable <- gsub('freqM_WNH', 'White non-Hispanic - Male', melt_M22$variable)
+
+ggplot(data = melt_M22, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Males Frist Name Between Black non-Hispanic and White non-Hispanic",
+        subtitle = "within top 20", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
+```
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows FEMALES babies' first names in Asian Pacific Islander and Hispanic"
+#| echo: false
+
+
+inner_F1 <- melt(inner_F1, id.vars = 'Child.s.First.Name')
+inner_F1$variable <- as.character(inner_F1$variable )
+inner_F1$variable <- gsub('freqF_API', 'Asian Pacific Islander - Female', inner_F1$variable)
+inner_F1$variable <- gsub('freqF_H', 'Hispanic - Female', inner_F1$variable)
+
+ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Female Frist Name Between Asian Pacific Islander and Hispanic",
+        subtitle = "within top 10", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group") +
+  theme_minimal()
+```
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows female babies' first names in Black non-Hispanic and White non-Hispanic"
+#| echo: false
+
+
+melt_F2 <- melt(inner_F2, id.vars = 'Child.s.First.Name')
+melt_F2$variable <- as.character(melt_F2$variable )
+melt_F2$variable <- gsub('freqF_BNH', 'Black non-Hispanic - Female', melt_F2$variable)
+melt_F2$variable <- gsub('freqF_WNH', 'White non-Hispanic - Female', melt_F2$variable)
+
+ggplot(data = melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Males Frist Name Between Black non-Hispanic and White non-Hispanic",
+        subtitle = "within top 10", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
+```
+
+
+
+
+```{r}
+#| label: fig-genders
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows female babies' first names in Black non-Hispanic and White non-Hispanic"
+#| echo: false
+
+
+melt_F22 <- melt(inner_F22, id.vars = 'Child.s.First.Name')
+melt_F22$variable <- as.character(melt_F22$variable )
+melt_F22$variable <- gsub('freqF_BNH', 'Black non-Hispanic - Female', melt_F22$variable)
+melt_F22$variable <- gsub('freqF_WNH', 'White non-Hispanic - Female', melt_F22$variable)
+
+ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Males Frist Name Between Black non-Hispanic and White non-Hispanic",
+        subtitle = "within top 20", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
 ```
 
 
