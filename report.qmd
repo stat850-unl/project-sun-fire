@@ -25,6 +25,8 @@ if (!"emo" %in% installed.packages()) {
 
 ```
 
+
+
 ```{r}
 BabyNames <- read.csv("Popular_Baby_Names.csv")
 colnames(BabyNames)
@@ -52,8 +54,9 @@ modified_data <- babynames %>% mutate(Ethnicity = recode(Ethnicity, "BLACK NON H
                                                       "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER",
                                                       "WHITE NON HISP" = "WHITE NON HISPANIC" )) 
 
-# check the result; there are total 6 levels in the ethnic groups
-M_data <- modified_data %>% group_by(Ethnicity) %>% count()
+# check the result; there are total 4 levels in the ethnic groups
+M_data1 <- modified_data %>% group_by(Ethnicity) %>% count()
+M_data2 <- modified_data %>% group_by(Ethnicity, Gender) %>% count()
 ```
 
 ## Introduction
@@ -400,6 +403,7 @@ ggplot(data = ef4_data, aes(x = Child.s.First.Name, y = freqF_WNH)) +
 
 library(dplyr)
 
+# develop merge of males between 2 ethnic groups
 inner_M1 <- inner_join(em1_data, em3_data, by = "Child.s.First.Name")
 inner_M2 <- inner_join(em2_data, em4_data, by = "Child.s.First.Name") 
 inner_M2 # no common result; why? different culture
@@ -415,6 +419,7 @@ inner_M22 # luckily, we get common results but the culture plays an important ro
 
 ####---------------------------------------------------------------------------------------------####
 
+# develop merge of female between 2 ethnic groups
 inner_F1 <- inner_join(ef1_data, ef3_data, by = "Child.s.First.Name")
 inner_F2 <- inner_join(ef2_data, ef4_data, by = "Child.s.First.Name")
 inner_F2 # only one common names
@@ -425,6 +430,45 @@ ef44_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Nam
 
 inner_F22 <- inner_join(ef22_data, ef44_data, by = "Child.s.First.Name")
 inner_F22 # Again, cultures difference 
+
+####-----------------------------------------------------------------------####
+```
+
+
+```{r}
+#| echo: false
+
+## Develop Unisex Name: merge males and females within the same ethnic groups 
+
+em1_100_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count), .groups = "drop") %>% arrange(desc(freqM_API)) %>% head(n=1000)
+
+ef1_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_API = sum(Count)) %>% arrange(desc(freqF_API)) %>% slice_head(n=1000)
+
+inner_com1 <- inner_join(em100_data, ef100_data, by = "Child.s.First.Name")
+# found 1 unisex name
+
+
+em2_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% arrange(desc(freqM_BNH)) %>% slice_head(n=1000)
+
+ef2_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_BNH = sum(Count)) %>% arrange(desc(freqF_BNH)) %>% slice_head(n=1000)
+
+inner_com2 <- inner_join(em2_100_data, ef2_100_data, by = "Child.s.First.Name")
+# no result
+
+### selected 1000 to see whether there is unisex name; check M_data2 to each # of each gender or ethnic group
+em3_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_H = sum(Count)) %>% arrange(desc(freqM_H)) %>% slice_head(n=1000)
+
+ef3_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_H = sum(Count)) %>% arrange(desc(freqF_H)) %>% slice_head(n=1000)
+
+inner_com3 <- inner_join(em3_100_data, ef3_100_data, by = "Child.s.First.Name")
+
+
+em4_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_WNH = sum(Count)) %>% arrange(desc(freqM_WNH)) %>% slice_head(n=1000)
+
+ef4_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_WNH = sum(Count)) %>% arrange(desc(freqF_WNH)) %>% slice_head(n=1000)
+
+inner_com4 <- inner_join(em4_100_data, ef4_100_data, by = "Child.s.First.Name")
+
 ```
 
 
@@ -634,7 +678,7 @@ ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, col
 
 
 
-### word clouds (interactive graph; ref: 12)
+### word clouds (interactive graph; ref: 12; plot the UNISEX name)
 
 
 ### Need to modify.... Cannot remember where I found this reference 
