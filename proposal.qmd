@@ -32,7 +32,7 @@ It was obtained from official civil birth registration records.
 Here is a data dictionary showing each variable, the type of variable, units, and range of values that are possible:
 
 | Name               | Description                                                            | Type        | Units | Range/Values                                                                                                                 |
-|----------|--------------|----------|----------|-----------------------------|
+|--------------------|------------------------------------------------------------------------|-------------|-------|------------------------------------------------------------------------------------------------------------------------------|
 | Year of birth      | year of the baby's birth                                               | numeric     | NA    | 2011 to 2019                                                                                                                 |
 | Gender             | gender/sex of a baby                                                   | categorical | NA    | male or female                                                                                                               |
 | Ethnicity          | mother's ethnicity                                                     | categorical | NA    | HISPANIC; WHITE NON HISPANIC; ASIAN AND PACIFIC ISLANDER; BLACK NON HISPANIC; ASIAN AND PACI; BLACK NON HISP; WHITE NON HISP |
