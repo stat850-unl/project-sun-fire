@@ -31,24 +31,18 @@ if (!"emo" %in% installed.packages()) {
 BabyNames <- read.csv("Popular_Baby_Names.csv")
 #colnames(BabyNames)
 #str(BabyNames)
-#unique_Ethic <- unique(BabyNames$Ethnicity); unique_Ethic
+
 
 sum(is.na(BabyNames)) # check missing values; no missing values
 
 library(dplyr)
 # distinct this dataset; remove the repeated rows based on X element 
-#D_BabyNames <- BabyNames %>% distinct() 
 
-#updated_data <- D_BabyNames %>% group_by(Ethnicity) %>% summarise()
-# count frequency of each ethnic group
-#updated_data1 <- D_BabyNames %>% group_by(Ethnicity) %>% count()
 
 BabyNames$Child.s.First.Name <- tolower(BabyNames$Child.s.First.Name)
 
-#BabyNames$Child.s.First.Name <- tolower(BabyNames$Child.s.First.Name)
-# Using unique function to get the same dataset as D_BabyNames
+# Using unique function to get 
 babynames<- unique(BabyNames) # remove the repeated rows; 
-#babynames$Child.s.First.Name <- tolower(babynames$Child.s.First.Name)
 
 # combine the ethnic groups b/c they have the same meaning
 modified_data <- babynames %>% mutate(Ethnicity = recode(Ethnicity, "BLACK NON HISP" = "BLACK NON HISPANIC" ,
@@ -104,7 +98,6 @@ The first question is what the top 10 popular first names are in each gender and
 ```{r filter dataset by M and F}
 #| echo: false
 
-library(dplyr)
 # select top 10 female's names
 vf_data <- modified_data %>% 
   filter(Gender == "FEMALE") %>% 
@@ -163,7 +156,7 @@ ggplot(data=vm_data, aes(x= Child.s.First.Name, y=freq)) +
 #| echo: false
 
 # top 10 names in ethnic group of API between Males and Females
-em1_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count), .groups = "drop") %>% arrange(desc(freqM_API)) %>% head(n=10)
+em1_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count), .groups = "drop") %>% arrange(desc(freqM_API)) %>% head(n=10)
 
 ef1_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_API = sum(Count)) %>% arrange(desc(freqF_API)) %>% slice_head(n=10)
 
@@ -404,7 +397,6 @@ inner_F22 # Again, cultures difference
 ```{r merge data sets for all males and females in different 4 ethnic groups 50}
 #| echo: false
 
-
 # expand dataset with top 50 names
 em50_BNH_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% arrange(desc(freqM_BNH)) %>% slice_head(n=50)
 
@@ -511,7 +503,7 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
   theme_minimal()
 ```
 
-#####Figure 1.3.2  side by side bar graph of common names in WNH and BNH for female 
+#####Figure 1.3.4  side by side bar graph of common names in WNH and BNH for female 
 ```{r}
 #| label: fig-ethnic4
 #| fig-width: 8
@@ -538,7 +530,7 @@ ggplot(data = melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) 
 
 ```
 
-#####Figure 1.3.2  side by side bar graph of common names in WNH and BNH for female (top 20)
+#####Figure 1.3.5 side by side bar graph of common names in WNH and BNH for female (top 20)
 ```{r}
 #| label: fig-ethnic5
 #| fig-width: 8
@@ -566,18 +558,17 @@ ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable))
 ```
 
 
-`word clouds (interactive graph; ref: 12; plot the UNISEX name)`
+
 ```{r Develop Unisex Name: merge males and females within the same ethnic groups}
 #| echo: false
 
 ## Develop Unisex Name: merge males and females within the same ethnic groups 
-
-em1_100_data <- modified_data %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count), .groups = "drop") %>% arrange(desc(freqM_API)) %>% head(n=1000)
+em1_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER" & Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_API = sum(Count), .groups = "drop") %>% arrange(desc(freqM_API)) %>% head(n=1000)
 
 ef1_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_API = sum(Count)) %>% arrange(desc(freqF_API)) %>% slice_head(n=1000)
 
 inner_com1 <- inner_join(em1_100_data, ef1_100_data, by = "Child.s.First.Name")
-# found 1 unisex name
+# found 4 unisex names
 
 
 em2_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% arrange(desc(freqM_BNH)) %>% slice_head(n=1000)
@@ -601,7 +592,50 @@ ef4_100_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.
 
 inner_com4 <- inner_join(em4_100_data, ef4_100_data, by = "Child.s.First.Name")
 
+# Females Names
+VF_data <- modified_data %>% 
+  filter(Gender == "FEMALE") %>% 
+  group_by(Child.s.First.Name, Gender) %>% 
+  summarise(freq = sum (Count),  .groups = "drop") %>% 
+  arrange(desc(freq))
+
+# Males Names
+VM_data <- modified_data %>% 
+  filter(Gender == "MALE") %>% 
+  group_by(Child.s.First.Name, Gender) %>%
+  summarise(freq = sum(Count), .groups = "drop") %>% 
+  arrange(desc(freq))
+
+inner_COM <- inner_join(VF_data, VM_data, by = "Child.s.First.Name") %>% head(10)
 ```
+
+```{r}
+#| label: fig-combined
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows unisex names"
+#| echo: false
+
+library(tidyr)
+
+ggplot(data = inner_COM, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Unisex Names",
+        subtitle = "top 10", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Gender")+
+  theme_minimal()
+
+```
+
+
+By merging these datasets, for each ethnic group, the more unisex names are used in WNH. 
+
+
+
 
 #### Time Plot of Average Length of First Names by Gender
 ```{r calculate average length of letters for names}
@@ -664,23 +698,10 @@ ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, col
     theme_minimal()
 ```
 
-From the time plot of average length of letters for babies first names, we can see, overall, the average length of names decreases over the time. The main reason is trend. Today, more people prefer short name because it make easier for people to remember and short name can also make it unique. 
-
-### Need to modify.... Cannot remember where I found this reference
-
-```{r}
-#| echo: false
-
-#babynames %>%
- # filter(name %in% c("William", "Will", "Bill") & sex== "M") %>%
-#  ggplot(aes(year, n, colour=name)) + geom_line() + 
- # theme_economist() +
-#  xlab("Year") + 
- # ylab("Number of People") +
-#  ggtitle("Changes in Popularity of the Name William")
+From the time plot of average length of letters for babies first names, we can see, overall, the average length of names decreases over the time. The main reason is trend. Today, more people prefer short name because it make easier for people to remember and short name can also make it unique. *Put relative reference here, why the short name is popular today?*
 
 
-```
+
 
 #### THIS IS ORIGINAL CODING FROM qmd. FILE
 
@@ -693,6 +714,9 @@ You can find additional information about formatting figures generated from code
 
 ## Additional Exploration topic
 
+In the time plot, the average length for males names is less than females. Why? Shorter names is attractive?
+
+In the merged dataset, why the unisex names are used in WNH? 
 
 
 It might be interesting to look at different spellings of similar names (e.g. Keily, Kylee, Kylie), if you get a chance and want to challenge yourselves. I'm not sure if you can get all sets of similar spellings automatically (maybe with some sort of phonetic guide or data read in from elsewhere, but that would be a bit complicated) but you could just look at a few common variations that pop up from your EDA.
