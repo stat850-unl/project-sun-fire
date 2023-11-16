@@ -20,10 +20,14 @@ modified_data <- babynames %>% mutate(Ethnicity = recode(Ethnicity, "BLACK NON H
 # Define UI
 ui <- fluidPage(
   titlePanel("Baby Names"),
-  selectInput("ing", "FirstName",
+  selectInput("FirstName", "First Name",
               choices = c( "All", unique(modified_data$Child.s.First.Name))),
   selectInput("EthnicityNames", "Ethnicity",
-              choices = c( "All", unique(modified_data$Child.s.First.Name))),
+              choices = c( "All", unique(modified_data$Ethnicity))),
+  selectInput("Gender", "Gender",
+              choices = c( "All", unique(modified_data$Gender))),
+  selectInput("YearOfBirth", "Year of Birth",
+              choices = c( "All", unique(modified_data$Year.of.Birth))),
   DTOutput("table")
 )
 
@@ -33,20 +37,23 @@ server <- function(input, output) {
 
   # display the table which contains what I want
   output$table <- renderDataTable({
+    selected_data <- modified_data
 
-    if (input$ing != "All") {
-      selcted <- modified_data[modified_data$Child.s.First.Name == input$ing, ]
-    } else{
-      selcted <- modified_data
+    if (input$FirstName != "All") {
+      selected_data <- filter(selected_data, Child.s.First.Name == input$FirstName)
     }
-
     # another condition:
     if (input$EthnicityNames != "All") {
-      selcted <- selcted[selcted$Child.s.First.Name == input$EthnicityNames, ]
+      selected_data <- filter(selected_data, Ethnicity == input$EthnicityNames)
+    }
+    if (input$Gender != "All"){
+      selected_data <- filter(selected_data, Gender == input$Gender)
+    }
+    if (input$YearOfBirth != "All") {
+      selected_data <- filter(selected_data, Year.of.Birth == input$YearOfBirth)
     }
 
-    selcted <- selcted
-    selcted
+    selected_data
   })
 
 }
