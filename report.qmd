@@ -521,7 +521,7 @@ melt_F2$variable <- gsub('freqF_WNH', 'White non-Hispanic - Female', melt_F2$var
 ggplot(data = melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
   geom_bar(stat = "identity", position = position_dodge()) +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
-  labs(title = "Common Males Frist Name Between Black non-Hispanic and White non-Hispanic",
+  labs(title = "Common Females Frist Name Between Black non-Hispanic and White non-Hispanic",
         subtitle = "within top 10", 
        x = "Name",
        y = "Frequency",
@@ -548,7 +548,7 @@ melt_F22$variable <- gsub('freqF_WNH', 'White non-Hispanic - Female', melt_F22$v
 ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
   geom_bar(stat = "identity", position = position_dodge()) +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
-  labs(title = "Common Males Frist Name Between Black non-Hispanic and White non-Hispanic",
+  labs(title = "Common Females Frist Name Between Black non-Hispanic and White non-Hispanic",
         subtitle = "within top 20", 
        x = "Name",
        y = "Frequency",
@@ -556,6 +556,8 @@ ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable))
   theme_minimal()
 
 ```
+
+
 
 
 
@@ -607,34 +609,42 @@ VM_data <- modified_data %>%
   arrange(desc(freq))
 
 inner_COM <- inner_join(VF_data, VM_data, by = "Child.s.First.Name") %>% head(10)
+
+###----------------------------------------------------------------------###
+
+library(tidyr)
+df_long <- pivot_longer(inner_COM, 
+                        cols = c(freq.x, freq.y), 
+                        names_to = "Gender", 
+                        values_to = "Frequency",
+                        names_prefix = "freq.")
+df_long$Gender <- recode(df_long$Gender, 'x' = 'FEMALE', 'y' = 'MALE')
 ```
 
+
+#####Figure 1.3.6 side by side bar graph of unisex names
 ```{r}
 #| label: fig-combined
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
-#| fig-cap: "This figure shows unisex names"
+#| fig-cap: "This figure shows unisex names are used by both genders"
 #| echo: false
 
-library(tidyr)
 
-ggplot(data = inner_COM, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+ggplot(data = df_long, aes(x = Child.s.First.Name, y = Frequency, fill = Gender)) + 
   geom_bar(stat = "identity", position = position_dodge()) +  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
-  labs(title = "Unisex Names",
-        subtitle = "top 10", 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +  
+  labs(title = "Unisex Names Frenquency by Gender",
        x = "Name",
        y = "Frequency",
        fill = "Gender")+
   theme_minimal()
-
 ```
 
 
-By merging these datasets, for each ethnic group, the more unisex names are used in WNH. 
 
-
+What we are suprised that `Dylan` is very popular no matter for males or females. Dylan is popular because it means "son of the sea", and retains more of its poetic, windswept quality when used for girls. [Dylan](https://nameberry.com/babyname/dylan/girl) Besides, `Avery` is more common for girls but is traditionally a boy's name, which mean rule of the elves in English. [Avery](https://nameberry.com/babyname/avery/girl) We also found `Tenzin` is used only in API, but it is for both males and females. "The name Tenzin is both a boy's name and a girl's name meaning "Holder of the teaching". Tenzin (sometimes also written as Tenzing or Stanzin)", found on the website. In API ethnic groups, the religious factor is the main reason that the names is used for both genders. [Tenzin](https://nameberry.com/babyname/tenzin/girl) Overall, people used unisex names mainly because the meaning of the names, but the religious and cultures can also be taken into account. 
 
 
 #### Time Plot of Average Length of First Names by Gender
@@ -698,9 +708,10 @@ ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, col
     theme_minimal()
 ```
 
-From the time plot of average length of letters for babies first names, we can see, overall, the average length of names decreases over the time. The main reason is trend. Today, more people prefer short name because it make easier for people to remember and short name can also make it unique. *Put relative reference here, why the short name is popular today?*
-
-
+From the time plot of average length of letters for babies first names, we can see, overall, the average length of names decreases over the time. The main reason is trend. Today, more people prefer short name because it make easier for people to remember and short name can also make it unique. When we search for other reasons make short names popular, Katie pointed short names and higher salary. 
+[Popularity](https://daily.jstor.org/science-baby-names/)
+[Shorter Name Higher Salary](https://associationsnow.com/2013/05/study-short-names-are-long-on-earning-power/)
+[Study Says Shorter Names Earn More](https://www.forbes.com/sites/laurashin/2013/05/07/study-says-shorter-names-earn-more/?sh=443c788972ea)
 
 
 #### THIS IS ORIGINAL CODING FROM qmd. FILE
