@@ -9,6 +9,8 @@ library(DT)
 library(wordcloud)
 library(tm)
 
+#Babies Figure
+#https://www.deseret.com/2015/6/26/20567471/what-our-babies-say-about-the-changing-face-of-america
 BabyNames <- read.csv("Popular_Baby_Names.csv")
 BabyNames$Child.s.First.Name <- tolower(BabyNames$Child.s.First.Name)
 babynames<- unique(BabyNames)
@@ -20,6 +22,7 @@ modified_data <- babynames %>% mutate(Ethnicity = recode(Ethnicity, "BLACK NON H
 # Define UI
 ui <- fluidPage(
   titlePanel("Baby Names"),
+  imageOutput("Babies"),
   selectInput("FirstName", "First Name",
               choices = c( "All", unique(modified_data$Child.s.First.Name))),
   selectInput("EthnicityNames", "Ethnicity",
@@ -35,6 +38,9 @@ ui <- fluidPage(
 # Define server
 server <- function(input, output) {
 
+  output$Babies <- renderImage({
+    list(src = "Babies.jpg", width = "40%", height = "auto")
+  }, deleteFile = FALSE)
   # display the table which contains what I want
   output$table <- renderDataTable({
     selected_data <- modified_data
