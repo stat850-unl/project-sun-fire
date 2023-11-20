@@ -9,6 +9,7 @@ Libraries used
 ```{r, echo=FALSE}
 library(tidyverse)
 library(reshape2)
+library(phonics)
 
 #install.packages("wordcloud")
 library(wordcloud)
@@ -389,7 +390,7 @@ ggplot(df, aes(x = Year.of.Birth, y = freq, fill=Rank, color = Rank)) +
   labs(title = "Most popular Female names over the years", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
 ```
 
-```{r}
+```{r, echo=FALSE}
 unique(BabyNames$Ethnicity)
 length(unique(BabyNames$Ethnicity))
 
@@ -428,26 +429,83 @@ ggplot(modified_data, aes(x = Rank)) +
 ```{r}
 #Find similar phonetics of name
 
-library("phonics")
+
 
 soundex(modified_data$Child.s.First.Name[1]) == soundex(modified_data$Child.s.First.Name[2]) 
 
+#Add a column with their phonix
 modified_data$ph <- soundex(modified_data$Child.s.First.Name)
+modified_data$ph1 <- phonex(modified_data$Child.s.First.Name)
 
+phonex(modified_data$Child.s.First.Name[1])
+soundex(modified_data$Child.s.First.Name[1])
+
+#Obtain the summary of baby names with simmialar
 modified_data %>% filter(Gender=="MALE") %>% 
-  group_by(Gender,ph) %>% summarise(count=n())
+  group_by(Gender,ph) %>% summarise(count=n()) %>% 
+  ggplot(aes(x=count)) +
+  geom_histogram()
 
 modified_data %>% filter(Gender=="FEMALE") %>% 
   group_by(Gender,ph) %>% summarise(count=n())
 
 modified_data %>% filter(ph=="A100") %>% select(Year.of.Birth,Ethnicity, Child.s.First.Name)
 
-#Phonis distribution 
-ggplot(modified_data, aes(x = ph)) +
-  geom_bar(binwidth = 5, fill = "skyblue", color = "black", alpha = 0.7, stat = count) +
-  labs(title = "Distribution of Phonics Variable",
-       x = "Phonics Variable",
-       y = "Frequency")
 
+
+
+```
+
+```{r}
+# Example: Visualizing distribution of Soundex codes
+soundex_freq <- table(modified_data$ph)
+barplot(soundex_freq, main = "Distribution of Soundex Codes", xlab = "Soundex Codes", ylab = "Frequency")
+
+soundex_freq <-modified_data %>% filter(Gender=="FEMALE") %>% 
+              group_by(Gender,ph) %>% summarise(count=n()) %>% 
+              arrange(desc(count))
+
+
+modified_data %>% filter(Gender=="MALE") %>% 
+              group_by(Gender,ph) %>% summarise(count=n()) %>% 
+              arrange(desc(count))
+modified_data %>% filter(Gender=="FEMALE") %>% 
+              group_by(Gender,ph) %>% summarise(count=n()) %>% 
+              arrange(desc(count))
+
+d1 <- modified_data %>% filter(ph %in% c("J200","A350"))
+
+
+#,"K400","L400"
+
+
+ggplot(soundex_freq, aes(x = ph, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Frequencies of Female", x = "Female", y = "Frequency")
+
+
+
+
+```
+
+```{r}
+
+```
+
+```{r}
+phonetic_comparison <- by(modified_data$ph, modified_data$Ethnicity, summary)
+print(phonetic_comparison)
+```
+
+```{r}
+# Example: Visualizing phonetic representations by ethnicity
+library(ggplot2)
+
+# Assuming the Phonetic column contains numeric data for visualization
+baby_names_data$Phonetic <- as.numeric(modified_data$ph)
+
+ggplot(modified_data, aes(x = Gender, y = ph, color = Gender)) +
+  geom_boxplot() +
+  labs(title = "Phonetic Representations by Ethnicity", x = "Gender", y = "Phonetic Value")
 
 ```
