@@ -101,13 +101,19 @@ Feedback from professor: "It might be interesting to look at different spellings
 
 ## Methods
 
+<<<<<<< HEAD
 Use `str()` function to display the structure of the data, identify the categorical variables and quantitative variables. Use `sum()` to see any missing values in the data. There is no missing values and we also see some repeated rows, so we use `distinct()` to get unique rows in the raw data.
 
 ### Describe any data cleaning and rearranging you needed to do to get your dataset into a workable form. Make sure to cite any packages which were important in your data cleaning process in this section. For instance, if you used dplyr, then it would be appropriate to say something like
 
 > we used the group-apply-combine paradigm with the `dplyr` functions `group_by` and `summarize` [@dplyr-package] to generate a dataset for each day of the observation period from the 15-minute interval observations in the raw data set.
+=======
+First, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. We used the `sum()` function to check for any missing values in the data. Noticing some repeated rows, we applied the `distinct()` function to extract unique rows from the raw data. To identify common names across different ethnic groups, we merged two datasets using the `inner_join()` function, allowing us to detect any overlapping names. We mainly used some functions like `group_by`, `filter`, and `summarize` from the dplyr package to form sub datasets. Additionally, we utilized `str_count` to calculate the number of letters in each name, and `mutate` to add a new column displaying this count. We then used `group_by` to calculate the average name length by gender and for each ethnic group. For data visualization, the `ggplot2` package was our primary tool.
+>>>>>>> faf3178b88fe09f9400b70e11341e8d40b6925e7
 
-## Topic of Exploration
+###--- Samitha ---###
+
+Lastly, we created a shiny app in order that we can search or filter by a category to explore the data. \## Topic of Exploration
 
 The first question is what the top 10 popular first names are in each gender and ethnic groups. We use the bar chart to visualize this result.
 
@@ -992,6 +998,7 @@ The `echo: false` option disables the printing of code (only output is displayed
 
 ## Additional Exploration topic
 
+<<<<<<< HEAD
 In the time plot, the average length for males names is less than females. Why? Shorter names is attractive?
 
 In the merged dataset, why the unisex names are used in WNH?
@@ -1017,3 +1024,18 @@ pandoc --lua-filter wordcount.lua report.qmd
 Notice that I have not pushed `_output/report.html` or the `_output/report_files/` folder to github - this is intentional. I have actually set `_output` to not show up in git, to encourage you all to NOT push the rendered files to github and to instead work from the markdown files directly.
 
 You may find it cleaner to create a figure subdirectory and store any figures that aren't created by R/Python in that folder. I encourage you to organize this repository in a sensible way.
+=======
+From the time plot of the average name lengths, we observe that the mean length for male names is shorter than that for female names. Could this be due to males seeking more unique names? Additionally, the time plot for different ethnic groups shows that the average name length for Asians and Pacific Islanders is the shortest among the groups. This could be due to cultural factors. We might need to review additional articles to understand the background of Asian and Pacific Islander naming practices and investigate the differences between male and female names. 
+####---- Samitha add his part---###
+
+Overall, we are also curious about whether there is a method to specifically search for a name in order to find all related information, such as its ranking and the years associated with it. To address this, we have created an interactive plot titled 'Babynames'. In this interatcive plot, users can search for a name or filter by ethnic group/year to explore the data.
+
+## Conclusion
+
+Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic, use different baby names, and it reflects diverse cultures. Currently, unisex names appear to be a trend, indicating that parents are prioritizing the meanings of names and moving away from traditional naming conventions. Additionally, there has been a noticeable decrease in the average length of names over time, with a growing preference for shorter names. In the time plot, the average length of names for females decreased from 5.925 to 5.725, and for males, it decreased from 5.75 to 5.65. In another time plot, which focused on ethnic groups, all groups exhibited a decreasing trend in the average length of names from 2011 to 2019. This trend might be influenced by the notion, as highlighted in an article, that 'a shorter name could lead to more financial success.' Such a belief could lead parents to choose shorter names and they hope their children will achieve greater success. 
+
+From the time plot of each ethnic group, `Jayden` is a very popular males name no matter which ethnic group, while for female names in different ethnic group, the names are different. `Isabella` is popular in Hispanic, `Olivia` is popular in both White Non-Hispanic and Asian Pacific Islander and `Madison` is popular in Black Non-Hispanic. 
+
+
+### Note: Samithat pull his part as a separate qmd file (`S_script.qmd`) in the repo.
+>>>>>>> faf3178b88fe09f9400b70e11341e8d40b6925e7
