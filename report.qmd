@@ -1026,7 +1026,7 @@ Notice that I have not pushed `_output/report.html` or the `_output/report_files
 You may find it cleaner to create a figure subdirectory and store any figures that aren't created by R/Python in that folder. I encourage you to organize this repository in a sensible way.
 =======
 From the time plot of the average name lengths, we observe that the mean length for male names is shorter than that for female names. Could this be due to males seeking more unique names? Additionally, the time plot for different ethnic groups shows that the average name length for Asians and Pacific Islanders is the shortest among the groups. This could be due to cultural factors. We might need to review additional articles to understand the background of Asian and Pacific Islander naming practices and investigate the differences between male and female names. 
-####---- Samitha add his part---###
+
 
 Overall, we are also curious about whether there is a method to specifically search for a name in order to find all related information, such as its ranking and the years associated with it. To address this, we have created an interactive plot titled 'Babynames'. In this interatcive plot, users can search for a name or filter by ethnic group/year to explore the data.
 
@@ -1037,5 +1037,5 @@ Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic,
 From the time plot of each ethnic group, `Jayden` is a very popular males name no matter which ethnic group, while for female names in different ethnic group, the names are different. `Isabella` is popular in Hispanic, `Olivia` is popular in both White Non-Hispanic and Asian Pacific Islander and `Madison` is popular in Black Non-Hispanic. 
 
 
-### Note: Samithat pull his part as a separate qmd file (`S_script.qmd`) in the repo.
+
 >>>>>>> faf3178b88fe09f9400b70e11341e8d40b6925e7
