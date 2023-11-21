@@ -426,6 +426,8 @@ ggplot(modified_data, aes(x = Rank)) +
        y = "Frequency")
 ```
 
+Phonetics comparison
+
 ```{r}
 #Find similar phonetics of name
 
@@ -439,6 +441,7 @@ modified_data$ph1 <- phonex(modified_data$Child.s.First.Name)
 
 phonex(modified_data$Child.s.First.Name[1])
 soundex(modified_data$Child.s.First.Name[1])
+nysiis(modified_data$Child.s.First.Name[3])
 
 #Obtain the summary of baby names with simmialar
 modified_data %>% filter(Gender=="MALE") %>% 
@@ -486,6 +489,7 @@ ggplot(soundex_freq, aes(x = ph, y = count)) +
 
 
 
+
 ```
 
 ```{r}
@@ -508,4 +512,64 @@ ggplot(modified_data, aes(x = Gender, y = ph, color = Gender)) +
   geom_boxplot() +
   labs(title = "Phonetic Representations by Ethnicity", x = "Gender", y = "Phonetic Value")
 
+```
+
+Creating a Word Cloud
+
+```{r}
+
+library(wordcloud)
+library(RColorBrewer)
+
+top100 <- modified_data %>% 
+  filter(Gender == "MALE" & Rank %in% c(1:100)) %>% 
+  group_by(Child.s.First.Name) %>% 
+  summarise(freq = sum(Count)) %>% arrange(desc(freq)) %>% 
+  head(100)
+
+
+
+modified_data %>% 
+  filter(Gender == "MALE" & Rank %in% c(1:100)) %>% 
+  group_by(Child.s.First.Name) %>% 
+  summarise(freq = sum(Count)) %>% arrange(desc(freq)) %>% 
+  head(100) %>% 
+  with(wordcloud(Child.s.First.Name, freq, max.words = 100, 
+                 scale = c(2, 0.5), 
+                 colors = brewer.pal(8, "Dark2")))
+title(main = "Most popolar baby names for males")
+
+
+
+top100 <- modified_data %>% 
+  filter(Gender == "FEMALE" & Rank %in% c(1:100)) %>% 
+  group_by(Child.s.First.Name) %>% 
+  summarise(freq = sum(Count)) %>% arrange(desc(freq)) %>% 
+  head(100)
+
+
+
+modified_data %>% 
+  filter(Gender == "FEMALE" & Rank %in% c(1:100)) %>% 
+  group_by(Child.s.First.Name) %>% 
+  summarise(freq = sum(Count)) %>% arrange(desc(freq)) %>% 
+  head(100) %>% 
+  with(wordcloud(Child.s.First.Name, freq, max.words = 100, 
+                 scale = c(2, 0.5), 
+                 colors = brewer.pal(8, "Dark2")))
+title(main = "Most popolar baby names for females")
+  
+
+```
+
+```{r}
+library(ggwordcloud)
+
+g1 <- ggplot(top100, aes(label = Child.s.First.Name, size = freq, color = freq)) +
+  geom_text_wordcloud_area(rm_outside = TRUE, eccentricity = 1) +
+  scale_size_area(max_size = 20,trans = power_trans(1/.7))+
+  theme_minimal() +
+  scale_color_gradient(low = "darkred", high = "red")
+
+g1
 ```
