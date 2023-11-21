@@ -64,25 +64,22 @@ In the data cleaning phase, we imported the dataset and discovered that it does 
 
 [Ethnic Information1](https://portal.ct.gov/-/media/DOT/documents/ddbe/RaceandEthnicIdentificationDefinitions2015pdf.pdf) [Ethnic Information2](https://research.schev.edu/info/Glossary/Black-or-African-American-Black-non-Hispanic#:~:text=Term%3A%20Black%20or%20African%20American,except%20those%20of%20Hispanic%20origin) [Ethnic Information23](https://www.census.gov/topics/population/race/about.html)
 
-Firstly, we display the top ten popular first names in each gender and ethnic groups and we are going to use a bar chart to display it. People can easily read these two graphs. The top 10 popular baby's first names were displayed on the horizontal axis, the occurrence of each baby's first names was displayed on the vertical line. From the bar graphs regarding different ethnic groups, there are 4 bars charts for 4 different ethnic groups. It is easy to read the top 10 baby's first name from each bar group but it may not easy to read a more common results at once. We also plot a bar graph displaying top 10 baby's first name based on a joint data set.
+First, we display the top ten most popular first names for each gender and ethnic group using bar charts. These graphs are easily readable. The top 10 popular baby first names are displayed on the horizontal axis, and the frequency of each name is shown on the vertical axis. In relation to the bar graphs depicting various ethnic groups, we have eight charts, each representing the top 10 baby first names for both males and females across four distinct ethnic groups. While these charts make it easy to identify the most popular names within each group, comparing common names across all groups simultaneously poses a challenge. To address this, we have also created a bar graph to show the results using a combined dataset. Additionally, we aim to identify unisex names—those used for both genders.
 
-We want to investigate whether the names that have consistently remained popular over several years or decades. In this question, we need to use inner_join function to see if we can get the common names over time. This analysis needs much time than previous questions. (note: 2011 to 2019, 9 years, summarize 9 dataframes with popular names between genders/ethnic groups) Display names in genders/ethnic groups each year in interactive graph, then display to merged data.
 
-Besides, we will display a time plot to show the average length of first names recorded in the dataset from 2011 to 2019. Analyze any trends here such as the increasing or decreasing trend. Why it changes as time moves on. Short names are popular and this is a trend today. (note: analyze the average of length of first names between genders from 2011 to 2019) To calculate the length of each names, apply what we learned in the class and use dyply package to calculate the average length. Then display the time plot which the horizontal axis is time, the vertical axis is the average length of first names.
+Are the average length of names decreasing as time goes on? Are short names popular today? Next, we display a time plot to show the average length of first names recorded in the dataset from 2011 to 2019. Analyze any trends here such as the increasing or decreasing trend. Why it changes as time moves on. Short names are popular and this is a trend today. (note: analyze the average of length of first names between genders from 2011 to 2019) To calculate the length of each names, apply what we learned in the class and use dyply package to calculate the average length. Then display the time plot which the horizontal axis is time, the vertical axis is the average length of first names.
 
-Draft of Samitha - How does the ranking (rank) of a name change over time? - A possible questions we might be able to answer is, are there any noticeable spikes in the popularity of names related to popular culture, such as movie characters or celebrities?
 
-Feedback from professor: "It might be interesting to look at different spellings of similar names (e.g. Keily, Kylee, Kylie)" no need to identify all, some are good too.
+##### ----This is for Samitha....----#### 
 
 ## Methods
 
-We use `str()` function to display the structure of the data, identify the categorical variables and quantitative variables. Use `sum()` to see any missing values in the data. We also see some repeated rows, so we used `distinct()` function to get unique rows in the raw data.
-
+We use `str()` function to display the structure of the data, identify the categorical variables and quantitative variables. Use `sum()` to see any missing values in the data. We also see some repeated rows, so we used `distinct()` function to get unique rows in the raw data. To identify common names used across different ethnic groups, we used the `inner_join()` function to merge the two datasets and determine any overlapping results. What we used a lot for this project 
 
 
 ## Topic of Exploration
 
-The first question is what the top 10 popular first names are in each gender and ethnic groups. We use the bar chart to visualize this result.
+The first question we address is what the top 10 most popular first names are for each gender and ethnic group, and the results are displayed in Figure 1.1. 
 
 ```{r filter dataset by M and F}
 #| echo: false
@@ -103,7 +100,9 @@ vm_data <- modified_data %>%
   head(10)
 ```
 
-#####Figure 1.1: bar graph of top 10 popular baby's first name between girls and boys
+Let us examine the top 10 male and female names overall.
+
+##### Figure 1.1: Bar Graph of the Top 10 Baby First Names for Males and Females
 
 ```{r}
 #| label: fig-genders1
@@ -115,17 +114,6 @@ vm_data <- modified_data %>%
 
 library(ggplot2)
 
-vf_data$Child.s.First.Name <-factor(vf_data$Child.s.First.Name, levels = vf_data$Child.s.First.Name) 
-
-ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
-  geom_bar(stat="identity", fill = 'hotpink') +
-  theme(axis.text.x = element_text(angle =45, hjust = 1)) +
-  labs(title = "Top 10 Popular Female Babies' Names", 
-       subtitle = "from 2011 to 2019", 
-       x = "Child's First Name", 
-       y = "Count") + 
-    theme_minimal()
-
 vm_data$Child.s.First.Name <-factor(vm_data$Child.s.First.Name, levels = vm_data$Child.s.First.Name) 
 
 ggplot(data=vm_data, aes(x= Child.s.First.Name, y=freq)) +
@@ -136,9 +124,24 @@ ggplot(data=vm_data, aes(x= Child.s.First.Name, y=freq)) +
        x = "Child's First Name", 
        y = "Count") + 
     theme_minimal()
+
+vf_data$Child.s.First.Name <-factor(vf_data$Child.s.First.Name, levels = vf_data$Child.s.First.Name) 
+
+ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
+  geom_bar(stat="identity", fill = 'hotpink') +
+  theme(axis.text.x = element_text(angle =45, hjust = 1)) +
+  labs(title = "Top 10 Popular Female Babies' Names", 
+       subtitle = "from 2011 to 2019", 
+       x = "Child's First Name", 
+       y = "Count") + 
+    theme_minimal()
 ```
 
-#####Figure 1.2 bar graph of top 10 names in different ethnic groups for male and female
+We can see the top 10 names for each gender on horizontal axis from these two bar charts, and the frequency of each name displayed on vertical axis. 
+
+In each bar chart, we clearly display the top 10 males and females names for each ethnic group, as shown in Figures 1.2.1 to 1.2.8. These charts make it easy to read the names specific to each ethnic group within each gender. However, the question arises: how do we visualize some names shared among different ethnic groups? Are there any names that are used by both White non-Hispanic (WNH) males and Black non-Hispanic (BNH) males? Or by both White non-Hispanic (WNH) females and Black non-Hispanic (BNH) females? To address these questions, we merged datasets from two ethnic groups. We then plotted the results to highlight any such commonalities in Figures 1.3.1 to 1.3.5.
+
+##### Figure 1.2: Bar Graph of the Top 10 Names in Different Ethnic Groups for Males and Females.
 
 ```{r filter dataset by ethnic groups}
 #| echo: false
@@ -166,7 +169,7 @@ ef4_data <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name
 
 ```
 
-#####Figure 1.2.1 bar graph of top 10 Asian and Pacific Islander boys names
+##### Figure 1.2.1: Bar Graph of the Top 10 Males Names for Asian and Pacific Islander 
 
 ```{r}
 #| label: fig-genders2
@@ -189,7 +192,7 @@ ggplot(data = em1_data, aes(x = Child.s.First.Name, y = freqM_API)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.2 bar graph of top 10 Asian and Pacific Islander girls names
+##### Figure 1.2.2: Bar Graph of the Top 10 Females Names for Asian and Pacific Islander 
 
 ```{r}
 #| label: fig-genders3
@@ -212,7 +215,7 @@ ggplot(data = ef1_data, aes(x = Child.s.First.Name, y = freqF_API)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.3 bar graph of top 10 Black non Hispanic boys names
+##### Figure 1.2.3: Bar Graph of the Top 10 Males Names for Black Non-Hispanic 
 
 ```{r}
 #| label: fig-genders4
@@ -235,7 +238,7 @@ ggplot(data = em2_data, aes(x = Child.s.First.Name, y = freqM_BNH)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.4 bar graph of top 10 Black non Hispanic girls names
+##### Figure 1.2.3: Bar Graph of the Top 10 Females Names for Black Non-Hispanic 
 
 ```{r}
 #| label: fig-genders5
@@ -257,7 +260,7 @@ ggplot(data = ef2_data, aes(x = Child.s.First.Name, y = freqF_BNH)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.5 bar graph of top 10 Hispanic boys names
+##### Figure 1.2.5: Bar Graph of the Top 10 Males Names for Hispanic 
 
 ```{r}
 #| label: fig-genders6
@@ -280,7 +283,7 @@ ggplot(data = em3_data, aes(x = Child.s.First.Name, y = freqM_H)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.6 bar graph of top 10 Hispanic girls names
+##### Figure 1.2.6: Bar Graph of the Top 10 Females Names for Hispanic 
 
 ```{r}
 #| label: fig-genders7
@@ -303,7 +306,7 @@ ggplot(data = ef3_data, aes(x = Child.s.First.Name, y = freqF_H)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.7 bar graph of top 10 White Non Hispanic boys names
+##### Figure 1.2.7: Bar Graph of the Top 10 Males Names for White Non-Hispanic
 
 ```{r}
 #| label: fig-genders8
@@ -325,7 +328,7 @@ ggplot(data = em4_data, aes(x = Child.s.First.Name, y = freqM_WNH)) +
       theme_minimal()
 ```
 
-#####Figure 1.2.8 bar graph of top 10 White Non Hispanic girls names
+##### Figure 1.2.8: Bar Graph of the Top 10 Females Names for White Non-Hispanic
 
 ```{r}
 #| label: fig-genders9
@@ -348,11 +351,9 @@ ggplot(data = ef4_data, aes(x = Child.s.First.Name, y = freqF_WNH)) +
       theme_minimal()
 ```
 
-From each bar chart, it is easy to read the top 10 names between males and females which are collected through civil birth registration on the website. Besides, the bar charts also display the top 10 babies names for different ethnic groups. These bar charts are easily to read by gender and ethnic groups individually. However, how to visualize the common names among different ethnic groups? We use the `inner_join` function to merge the two datasets for two ethnic groups to develop whether there are some common results.
 
-Here, we merge the datasets consist of White non-Hispanic (WNH) Males and Black non-Hispanic (BNH) Males, and the White non-Hispanic (WNH) Females and Black non-Hispanic (BNH) Females, dnd then we use the bar charts to plot the `common` results.
 
-```{r merge data sets for all males and females in different 4 ethnic groups 10 to 20}
+```{r merge data sets for all males and females WNH and BNH 10 to 20}
 #| echo: false
 
 library(dplyr)
@@ -388,7 +389,8 @@ inner_F22 # Again, cultures difference
 ####-----------------------------------------------------------------------####
 ```
 
-```{r merge data sets for all males and females in different 4 ethnic groups 50}
+
+```{r merge data sets for all males and females WNH and BNH 50}
 #| echo: false
 
 # expand dataset with top 50 names
@@ -413,37 +415,10 @@ inner_F50 # Again, cultures difference
 ####-----------------------------------------------------------------------####
 ```
 
-After we merge the dataset of WNH and BNH for males and females for top 10 names, there is no common result for males and only one common name (Olivia) for female. The main reason is the different culture between BNH and WNH. We extend the top 10 to top 20, 3 boys names are used and 4 girls names are used for both ethnic groups. Even though we can see more common results but the frequency of the names are very different. We plot a side-by-side bar chart to show the frequency between WNH and BNH. What we really want to tell the audience is different names are used in different ethnic groups, and one reason is because of different cultures.
+After merging the datasets of White non-Hispanic (WNH) and Black non-Hispanic (BNH) for the top 10 names among males and females, we found no common names among the males and only one common name, `Olivia`, among females. When we expanded the list to the top 20 names, we discovered three common names for boys and four for girls used across both ethnic groups. Although extending the range of names revealed more commonalities, the frequency of each name varied significantly between the groups. To illustrate this, we plotted a side-by-side bar chart showing the frequency of names between WNH and BNH. Our primary aim is to convey that different ethnic groups tend to use different names, largely influenced by cultural differences. The results are displayed from Figure 1.3.1 to Figure 1.3.3.
 
-#####Figure 1.3.1 side by side bar graph of common names in API and H for male
 
-```{r}
-#| label: fig-ethnic1
-#| fig-width: 8
-#| fig-height: 4 
-#| out-width: 80%  
-#| fig-cap: "This figure shows common names for Asian Pacific Islander and Hispanic (MALES)"
-#| echo: false
-
-library(reshape2)
-melt_M1 <- melt(inner_M1, id.vars = 'Child.s.First.Name')
-melt_M1$variable <- as.character(melt_M1$variable )
-melt_M1$variable <- gsub('freqM_API', 'Asian Pacific Islander - Male', melt_M1$variable)
-melt_M1$variable <- gsub('freqM_H', 'Hispanic - Male', melt_M1$variable)
-
-ggplot(data = melt_M1, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
-  geom_bar(stat = "identity", position = position_dodge()) +  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
-  labs(title = "Common Males Frist Name Between Asian Pacific Islander and Hispanic",
-        subtitle = "within top 10", 
-       x = "Name",
-       y = "Frequency",
-       fill = "Ethnic Group")+
-  theme_minimal()
-
-```
-
-#####Figure 1.3.2 side by side bar graph of common names in WNH and BNH for male (top 20)
+##### Figure 1.3.1: Side-by-Side Bar Graph of Common Names Among the Top 20 for WNH and BNH Males.
 
 ```{r}
 #| label: fig-ethnic2
@@ -453,7 +428,7 @@ ggplot(data = melt_M1, aes(x = Child.s.First.Name, y = value, fill = variable)) 
 #| fig-cap: "This figure shows common names for Black non-Hispanic and White non-Hispanic (MALES) top 20"
 #| echo: false
 
-
+library(reshape2)
 melt_M22 <- melt(inner_M22, id.vars = 'Child.s.First.Name')
 melt_M22$variable <- as.character(melt_M22$variable )
 melt_M22$variable <- gsub('freqM_BNH', 'Black non-Hispanic - Male', melt_M22$variable)
@@ -471,34 +446,7 @@ ggplot(data = melt_M22, aes(x = Child.s.First.Name, y = value, fill = variable))
 
 ```
 
-#####Figure 1.3.3 side by side bar graph of common names in API and H for female
-
-```{r}
-#| label: fig-ethnic3
-#| fig-width: 8
-#| fig-height: 4 
-#| out-width: 80%  
-#| fig-cap: "This figure shows common names for Asian Pacific Islander and Hispanic (FEMALES)"
-#| echo: false
-
-
-inner_F1 <- melt(inner_F1, id.vars = 'Child.s.First.Name')
-inner_F1$variable <- as.character(inner_F1$variable )
-inner_F1$variable <- gsub('freqF_API', 'Asian Pacific Islander - Female', inner_F1$variable)
-inner_F1$variable <- gsub('freqF_H', 'Hispanic - Female', inner_F1$variable)
-
-ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
-  geom_bar(stat = "identity", position = position_dodge()) +  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
-  labs(title = "Common Female Frist Name Between Asian Pacific Islander and Hispanic",
-        subtitle = "within top 10", 
-       x = "Name",
-       y = "Frequency",
-       fill = "Ethnic Group") +
-  theme_minimal()
-```
-
-#####Figure 1.3.4 side by side bar graph of common names in WNH and BNH for female
+##### Figure 1.3.2: Side-by-Side Bar Graph of Common Names Among the Top 10 for WNH and BNH Females
 
 ```{r}
 #| label: fig-ethnic4
@@ -526,7 +474,7 @@ ggplot(data = melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) 
 
 ```
 
-#####Figure 1.3.5 side by side bar graph of common names in WNH and BNH for female (top 20)
+##### Figure 1.3.3: Side-by-Side Bar Graph of Common Names Among the Top 20 for WNH and BNH Females
 
 ```{r}
 #| label: fig-ethnic5
@@ -553,6 +501,63 @@ ggplot(data = melt_F22, aes(x = Child.s.First.Name, y = value, fill = variable))
   theme_minimal()
 
 ```
+
+##### Figure 1.3.4:  Side-by-Side Bar Graph of Common Names Among the Top 10 for API and H Males
+
+```{r}
+#| label: fig-ethnic1
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows common names for Asian Pacific Islander and Hispanic (MALES)"
+#| echo: false
+
+library(reshape2)
+melt_M1 <- melt(inner_M1, id.vars = 'Child.s.First.Name')
+melt_M1$variable <- as.character(melt_M1$variable )
+melt_M1$variable <- gsub('freqM_API', 'Asian Pacific Islander - Male', melt_M1$variable)
+melt_M1$variable <- gsub('freqM_H', 'Hispanic - Male', melt_M1$variable)
+
+ggplot(data = melt_M1, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Males Frist Name Between Asian Pacific Islander and Hispanic",
+        subtitle = "within top 10", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
+```
+
+##### Figure 1.3.5:  Side-by-Side Bar Graph of Common Names Among the Top 10 for API and H Females
+
+```{r}
+#| label: fig-ethnic3
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "This figure shows common names for Asian Pacific Islander and Hispanic (FEMALES)"
+#| echo: false
+
+
+inner_F1 <- melt(inner_F1, id.vars = 'Child.s.First.Name')
+inner_F1$variable <- as.character(inner_F1$variable )
+inner_F1$variable <- gsub('freqF_API', 'Asian Pacific Islander - Female', inner_F1$variable)
+inner_F1$variable <- gsub('freqF_H', 'Hispanic - Female', inner_F1$variable)
+
+ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Common Female Frist Name Between Asian Pacific Islander and Hispanic",
+        subtitle = "within top 10", 
+       x = "Name",
+       y = "Frequency",
+       fill = "Ethnic Group") +
+  theme_minimal()
+```
+
+
 
 ```{r Develop Unisex Name: merge males and females within the same ethnic groups}
 #| echo: false
@@ -614,7 +619,7 @@ df_long <- pivot_longer(inner_COM,
 df_long$Gender <- recode(df_long$Gender, 'x' = 'FEMALE', 'y' = 'MALE')
 ```
 
-#####Figure 1.3.6 side by side bar graph of unisex names
+##### Figure 1.3.6:  Side-by-Side Bar Graph of Unisex Names
 
 ```{r}
 #| label: fig-combined
