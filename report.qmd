@@ -76,8 +76,12 @@ Our next aim is to show the average length of names over time. Are shorter names
 
 ## Methods
 
-We use `str()` function to display the structure of the data, identify the categorical variables and quantitative variables. Use `sum()` to see any missing values in the data. We also see some repeated rows, so we used `distinct()` function to get unique rows in the raw data. To identify common names used across different ethnic groups, we used the `inner_join()` function to merge the two datasets and determine any overlapping results. What we used a lot for this project
+First, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. We used the `sum()` function to check for any missing values in the data. Noticing some repeated rows, we applied the `distinct()` function to extract unique rows from the raw data. To identify common names across different ethnic groups, we merged two datasets using the `inner_join()` function, allowing us to detect any overlapping names. We mainly used some functions like `group_by`, `filter`, and `summarize` from the dplyr package to form sub datasets. Additionally, we utilized `str_count` to calculate the number of letters in each name, and `mutate` to add a new column displaying this count. We then used `group_by` to calculate the average name length by gender and for each ethnic group. For data visualization, the `ggplot2` package was our primary tool.
 
+
+###--- Samitha ---###
+
+Lastly, we created a shiny app in order that we can search or filter by a category to explore the data.
 ## Topic of Exploration
 
 The first question we address is what the top 10 most popular first names are for each gender and ethnic group, and the results are displayed in Figure 1 and Figure 2.
@@ -670,15 +674,18 @@ The time plot shows the average length of letters in baby first names from 2011 
 
 ## Additional Exploration topic
 
-From the time plot of average length of names, we observe that the mean length for males are shorter than the females, does it due to males are seeking for unique names? Also, from the time plot of different ethnic groups, the average name of Asian and Pacific Islander are the smallest among ethnic groups. One reason could be different culture. We might need to read other articles to understand the background of API and difference between males and females names. 
+From the time plot of the average name lengths, we observe that the mean length for male names is shorter than that for female names. Could this be due to males seeking more unique names? Additionally, the time plot for different ethnic groups shows that the average name length for Asians and Pacific Islanders is the shortest among the groups. This could be due to cultural factors. We might need to review additional articles to understand the background of Asian and Pacific Islander naming practices and investigate the differences between male and female names.
 ####---- Samitha add his part---###
 
 
-Overall, besides these plots above, we are also wondering if there is way for us to search a specific name so that we can find all information such as ranking and year corresponding to this name. We create an interactive plot to show `Babynames`. In this interactive plot, we can search a name or filter the ethnic group to look for what we are interest in.  
+Overall, we are also curious about whether there is a method to specifically search for a name in order to find all related information, such as its ranking and the years associated with it. To address this, we have created an interactive plot titled 'Babynames'. In this interatcive plot, users can search for a name or filter by ethnic group/year to explore the data.
 
 
 
 
 ## Conclusion
-Different ethnic groups have different preferred babies names due to different culture especially for White Non-Hispanic and Black Non-Hispanic. Unisex names could be a trend today and parents would like to prefer the meaning of names and break the original rules of naming babies. In addition, the average length of names decreases over time and people prefer the short names because . Another reason is people are affected by the research "shorter name, more money". Parents hope children to be successful. `Samitha needs to modified his part.`
+Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic, use different baby names, and it reflects diverse cultures. Currently, unisex names appear to be a trend, indicating that parents are prioritizing the meanings of names and moving away from traditional naming conventions. Additionally, there has been a noticeable decrease in the average length of names over time, with a growing preference for shorter names. This trend might be influenced by the notion, as highlighted in an article, that 'a shorter name could lead to more financial success.' Such a belief could lead parents to choose shorter names and they hope their children will achieve greater success.
+###---Samitha needs to modified his part.---##
 
+
+### Note: Samithat pull his part as a separate qmd file (`S_script.qmd`) in the repo.
