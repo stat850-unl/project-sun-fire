@@ -69,34 +69,36 @@ library(ggwordcloud)
 
 ### Description of the Data set
 
-This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration. There is other information about how the data.citynewyork.us collected the data. But we think they may collect the data from online registration system. Each row represents *a popular baby* first name . There are 6 columns, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` represents the frequency of baby names in descending order in each year.
+This dataset `BabyNames` consist of the popular baby names by sex and ethnic group from 2011 to 2019, and it was collected through civil birth registration system. Each row represents *a popular baby* first name . There are 6 columns indicates 6 features of each first name, `Year of Birth`, it is quantitative and indicates the year of the baby birth; `Year of Birth` includes year from 2011 to 2019; `Gender`, it is categorical variable (Male and Female); `Ethnicity` is a categorical variable and it indicates the mother's ethnicity; `Child.s.First.Name` is a categorical variable, it represents baby's first name; `Count` is quantitative and the value represents the frequency of names were collected through civil birth registration; and `Rank` represents the frequency of baby names in descending order in each year.
 
 ### Cleaning the Data
 
-In the data cleaning phase, we imported the dataset and discovered that it does not contain any missing values. Additionally, we identified and removed duplicate rows from the initial dataset. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISPANIC` and `WHITE NON HISP`. They are the same ethic groups but with different names, so we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis. `Black non-Hispanic(BNH)` refers to a person having origins in any of the black racial groups of Africa (except those of Hispanic origin); `White non-Hispanic(WNH)` means a person having origins in any of the original peoples of Europe, the Middle East, or North Africa but not in Hispanic. `Hispanic(H)` refers to a person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.; and `Aisan and Pacific Islander(API)` means a person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam, also includes a person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands. Finally, there are total 2 quantitative variables, `Year of Birth` and `Count`; 4 categorical variables, `Gender`, `Ethnicity`, `Child.s.First.Name` and `Rank`.
-
+In the data cleaning phase, we imported the dataset and discovered that it does not contain any missing values. Additionally, we identified and removed duplicate rows from the initial dataset. There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISPANIC` and `WHITE NON HISP`. They are the same ethic groups but with different names, we combine them before we perform analysis regarding our interest, and finally we will use the `modified_data` to do further data analysis. `Black non-Hispanic(BNH)` refers to a person having origins in any of the black racial groups of Africa (except those of Hispanic origin); `White non-Hispanic(WNH)` means a person having origins in any of the original peoples of Europe, the Middle East, or North Africa but not in Hispanic. `Hispanic(H)` refers to a person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.; and `Aisan and Pacific Islander(API)` means a person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam, also includes a person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands. Finally, in the `modified_data` dataset, there are total 2 quantitative variables, `Year of Birth` and `Count`; 4 categorical variables, `Gender`, `Ethnicity`, `Child.s.First.Name` and `Rank`.
 
 (Source:[Ethnic Information1](https://portal.ct.gov/-/media/DOT/documents/ddbe/RaceandEthnicIdentificationDefinitions2015pdf.pdf) [Ethnic Information2](https://research.schev.edu/info/Glossary/Black-or-African-American-Black-non-Hispanic#:~:text=Term%3A%20Black%20or%20African%20American,except%20those%20of%20Hispanic%20origin) [Ethnic Information23](https://www.census.gov/topics/population/race/about.html))
 
-
 ### Aims
 
-First, we display the top ten most popular first names for each gender and ethnic group using bar charts. These graphs are easily readable. The top 10 popular baby first names are displayed on the horizontal axis, and the frequency of each name is shown on the vertical axis. In relation to the bar graphs depicting various ethnic groups, we have eight charts, each representing the top 10 baby first names for both males and females across four distinct ethnic groups. While these charts make it easy to identify the most popular names within each group, comparing common names across all groups simultaneously poses a challenge. To address this, we have also created a bar graph to show the results using a combined dataset. Additionally, we aim to identify unisex names---those used for both genders.
+First, we display the top ten most popular first names for each gender and ethnic group using bar charts. These graphs are easily readable. The top 10 popular baby first names are displayed on the horizontal axis, and the frequency of each name is shown on the vertical axis. In relation to the bar graphs depicting various ethnic groups, we have eight charts, each representing the top 10 baby first names for both males and females across four distinct ethnic groups. While these charts make it easy to identify the most popular names within each group, while comparing common names across all groups simultaneously poses a challenge. To address this, we have also created a bar graph to show the results using a combined dataset. Additionally, we aim to identify unisex names---those used for both genders.
 
 Our next aim is to show the average length of names over time. Are shorter names more popular now? To address this question, we display a time plot showing the average length of first names recorded in our dataset from 2011 to 2019. From the plot, we can see the trend over time.
-
 
 By looking at how names rank over time helps us spot big changes in how popular they are. We can see if a name suddenly gets really popular or falls in popularity during certain years. We can also check if the most liked names stay the same over the years or if they change for boys, girls, and different groups of people. This helps us understand if some names are always liked or if new ones become popular as time goes on.
 
 By studying this, we can figure out if certain names are consistently popular or if things change, showing how people's tastes in names shift. It's like seeing if your favorite songs stay the same or if new ones become hits, but with names! This helps us learn how different groups of people choose names and if those choices change over time.
 
-Another intriguing aspect to explore is the sounds or phonetics present in various names. By examining the sounds that compose these popular names, we can uncover the recurring phonetic patterns that contribute to their creation and popularity. By delving into the phonetic makeup of names, we can identify common patterns or distinctive sounds that contribute to the appeal of certain names.(Haven't figured out how to do this exactly)
-
-
+Finally,explore the sounds or phonetics present in various names. By examining the sounds that compose these popular names, we can uncover the recurring phonetic patterns that contribute to their creation and popularity. By delving into the phonetic makeup of names, we can identify common patterns or distinctive sounds that contribute to the appeal of certain names.(Haven't figured out how to do this exactly)
 
 ## Methods
 
-First, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. We used the `sum()` function to check for any missing values in the data. Noticing some repeated rows, we applied the `distinct()` function to extract unique rows from the raw data. To identify common names across different ethnic groups, we merged two datasets using the `inner_join()` function, allowing us to detect any overlapping names. We mainly used some functions like `group_by`, `filter`, and `summarize` from the dplyr package to form sub datasets. Additionally, we utilized `str_count` to calculate the number of letters in each name, and `mutate` to add a new column displaying this count. We then used `group_by` to calculate the average name length by gender and for each ethnic group. For data visualization, the `ggplot2` package was our primary tool. Lastly, we created a shiny app in order that we can search or filter by a category to explore the data. 
+After reading data files, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. We used the `sum(is.na())` function to check for any missing values in the raw data. Noticing some repeated rows, we applied the `distinct()` function to extract unique rows from the raw data. When we subset the dataset regarding the different genders, different ethnic groups, we mainly used `dplyr` functions `group_by`, `filter`, `summarise`, `arrange` and `mutate`[@dplyr-package] to achieve our goal. For example, to generate a dataset consisting popular babies' names for each gender, we used `filter` function select gender of male first, then used `group_by` to get the dataset consisting of all males names, and used  `summarize` to count the frequencies of each male names occurance and use `arrange` function to arrange the frequency and `head` function to extract the top 10 popular males babies names. For the top 10 popular females names, we only need to change the male to femal when we use `filter` function. 
+
+To identify common names across different ethnic groups, we merged two datasets using the `inner_join()` function, allowing us to detect any overlapping names.  like `group_by`, `filter`, and `summarize` from the dplyr package to form sub datasets. Additionally, we utilized `str_count` to calculate the number of letters in each name, and `mutate` to add a new column displaying this count. We then used `group_by` to calculate the average name length by gender and for each ethnic group. 
+
+For data visualization, the `ggplot2` package was our primary tool. 
+
+Lastly, we created a shiny app in order that we can search or filter by a category to explore the data.
+
 
 
 ## Topic of Exploration
@@ -121,7 +123,6 @@ vm_data <- modified_data %>%
   arrange(desc(freq)) %>% 
   head(10)
 ```
-
 
 ```{r}
 #| label: fig-genders1
@@ -155,6 +156,7 @@ ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
        y = "Count") + 
     theme_minimal()
 ```
+
 
 We can see the top 10 names for each gender on horizontal axis from these two bar charts, and the frequency of each name displayed on vertical axis.
 
@@ -352,7 +354,6 @@ ggplot(data = ef4_data, aes(x = Child.s.First.Name, y = freqF_WNH)) +
       theme_minimal()
 ```
 
-
 ```{r merge data sets for all males and females WNH and BNH 10 to 20}
 #| echo: false
 #| 
@@ -547,7 +548,6 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
   theme_minimal()
 ```
 
-
 We are also interested in unisex names, which are used for both genders. The results are shown in Figure 16.
 
 ```{r Develop Unisex Name: merge males and females within the same ethnic groups}
@@ -727,8 +727,7 @@ ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, col
 
 The time plot shows the average length of letters in baby first names from 2011 to 2019, we observe that, overall, the average length of names has decreased over time. The primary reason for this trend is a growing preference for shorter names. Many people today favor short names as they are easier to remember and can also be more unique. In exploring other factors contributing to the popularity of short names, Katie highlighted that shorter names are often associated with higher salaries in "Study: Short Names Are Long on Earning Power". (Source:[Popularity](https://daily.jstor.org/science-baby-names/) [Shorter Name Higher Salary](https://associationsnow.com/2013/05/study-short-names-are-long-on-earning-power/) [Study Says Shorter Names Earn More](https://www.forbes.com/sites/laurashin/2013/05/07/study-says-shorter-names-earn-more/?sh=443c788972ea))
 
-Here we are trying to understand the variation of the most popular baby names from 2011-2019.
-A line plot is used to analyze this and clearly see the trend over the years.
+Here we are trying to understand the variation of the most popular baby names from 2011-2019. A line plot is used to analyze this and clearly see the trend over the years.
 
 ```{r}
 top10_names <- modified_data %>% filter(Rank %in% c(1:10))
@@ -982,18 +981,14 @@ title(main = "Most popolar baby names for females")
 
 ```
 
-
-
 ## Additional Exploration topic
-From the time plot of the average name lengths, we observe that the mean length for male names is shorter than that for female names. Could this be due to males seeking more unique names? Additionally, the time plot for different ethnic groups shows that the average name length for Asians and Pacific Islanders is the shortest among the groups. This could be due to cultural factors. We might need to review additional articles to understand the background of Asian and Pacific Islander naming practices and investigate the differences between male and female names. 
+
+From the time plot of the average name lengths, we observe that the mean length for male names is shorter than that for female names. Could this be due to males seeking more unique names? Additionally, the time plot for different ethnic groups shows that the average name length for Asians and Pacific Islanders is the shortest among the groups. This could be due to cultural factors. We might need to review additional articles to understand the background of Asian and Pacific Islander naming practices and investigate the differences between male and female names.
 
 Overall, we are also curious about whether there is a method to specifically search for a name in order to find all related information, such as its ranking and the years associated with it. To address this, we have created an interactive plot titled 'Babynames'. In this interactive plot, users can search for a name or filter by ethnic group/year to explore the data.
-
-
 
 ## Conclusion
 
 Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic, use different baby names, and it reflects diverse cultures. Currently, unisex names appear to be a trend, indicating that parents are prioritizing the meanings of names and moving away from traditional naming conventions. Additionally, there has been a noticeable decrease in the average length of names over time, with a growing preference for shorter names. In the time plot, the average length of names for females decreased from 5.925 to 5.725, and for males, it decreased from 5.75 to 5.65. In another time plot, which focused on ethnic groups, all groups exhibited a decreasing trend in the average length of names from 2011 to 2019. This trend might be influenced by the notion, as highlighted in an article, that 'a shorter name could lead to more financial success.' Such a belief could lead parents to choose shorter names and they hope their children will achieve greater success.
 
-From the time plot of each ethnic group, `Jayden` is a very popular males name no matter which ethnic group, while for female names in different ethnic group, the names are different. `Isabella` is popular in Hispanic, `Olivia` is popular in both White Non-Hispanic and Asian Pacific Islander and `Madison` is popular in Black Non-Hispanic. In the word cloud figure, people can easily to view the popular names and the word cloud make it vivid. 
-
+From the time plot of each ethnic group, `Jayden` is a very popular males name no matter which ethnic group, while for female names in different ethnic group, the names are different. `Isabella` is popular in Hispanic, `Olivia` is popular in both White Non-Hispanic and Asian Pacific Islander and `Madison` is popular in Black Non-Hispanic. In the word cloud figure, people can easily to view the popular names and the word cloud make it vivid.
