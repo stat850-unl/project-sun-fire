@@ -91,15 +91,15 @@ Finally,explore the sounds or phonetics present in various names. By examining t
 
 ## Methods
 
-After reading data files, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. We used the `sum(is.na())` function to check for any missing values in the raw data. Noticing some repeated rows, we applied the `distinct()` function to extract unique rows from the raw data. When we subset the dataset regarding the different genders, different ethnic groups, we mainly used `dplyr` functions `group_by`, `filter`, `summarise`, `arrange` and `mutate`[@dplyr-package] to achieve our goal. For example, to generate a dataset consisting popular babies' names for each gender, we used `filter` function select gender of male first, then used `group_by` to get the dataset consisting of all males names, and used  `summarize` to count the frequencies of each male names occurance and use `arrange` function to arrange the frequency and `head` function to extract the top 10 popular males babies names. For the top 10 popular females names, we only need to change the male to femal when we use `filter` function. 
+After reading data files, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. We used the `sum(is.na())` function to check for any missing values in the raw data. Noticing some repeated rows, we applied the `distinct()` function to extract unique rows from the raw data. When we subset the dataset regarding the different genders, different ethnic groups, we mainly used `dplyr` functions `group_by`, `filter`, `summarise`, `arrange` and `mutate`[@dplyr-package] to achieve our goal. For example, to generate a dataset consisting popular babies' names for each gender, we used `filter` function select gender of male first, then used `group_by` to get the dataset consisting of all males names, and used `summarize` to count the frequencies of each male names occurrence and use `arrange` function to arrange the frequency and `head` function to extract the top 10 popular males babies names. For the top 10 popular females names, we only need to change the male to female when we use `filter` function. Similarly, to generate dataset for four different ethnic group, we only need to modify the selection in `filter` function. Furthermore, we used two condition in `filter` function to generate dataset with one gender and one ethnicity. 
 
-To identify common names across different ethnic groups, we merged two datasets using the `inner_join()` function, allowing us to detect any overlapping names.  like `group_by`, `filter`, and `summarize` from the dplyr package to form sub datasets. Additionally, we utilized `str_count` to calculate the number of letters in each name, and `mutate` to add a new column displaying this count. We then used `group_by` to calculate the average name length by gender and for each ethnic group. 
+When we investigate the common results (unisex names) between two datasets consisting one gender for one ethnic group, we used the `inner_join()` function to combine two datasets to detect any overlapping names.
 
-For data visualization, the `ggplot2` package was our primary tool. 
+Additionally, regarding the length of names, we used `str_count` function[@stringr-package] to calculate the number of letters in each name, and `group_by`, `mutate` function[@dplyr-package] to add columns displaying this count, calculate number of length for each name and total length. Then applied `mean` function to calculate the average length name for each gender from year 2011 to 2019.  
 
-Lastly, we created a shiny app in order that we can search or filter by a category to explore the data.
+For data visualization, the `ggplot` function[@ggplot2-package] was our primary tool. To generate a bar graph for the popular males names, we used `geom_bar` for the layers and `aes mapping` function to map x and y variable, then add `themes` and `labs` as layers for displaying the title of the plot and names of x and y axis, lastly, add  `theme_minimal()` to make a minimalist theme with no background annotations. When we ploted a line group, we replaced the `geom_bar` with `geom_line` and `geom_point`. So the general process of generating the plots are the same, we only need to modify the layers to get different types of plots.
 
-
+we created a shiny app in order that we can search or filter by a category to explore the data.
 
 ## Topic of Exploration
 
@@ -156,7 +156,6 @@ ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
        y = "Count") + 
     theme_minimal()
 ```
-
 
 We can see the top 10 names for each gender on horizontal axis from these two bar charts, and the frequency of each name displayed on vertical axis.
 
