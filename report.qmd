@@ -563,6 +563,9 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
 ```
 
 
+Comparing the frequency of each name within each ethnic group might not be the best approach, as it could lead to fallacious conclusions. This method fails to account for the varying sizes of each ethnic group. A more effective comparison would involve using the proportion of each name within each ethnic group. By comparing these proportions, we can more accurately assess the popularity of names. In this analysis, we have displayed the proportions of the name 'Olivia' in both Black non-Hispanic and White non-Hispanic groups. Interestingly, it appears that the Black non-Hispanic group has a stronger preference for this name.
+
+
 ```{r calculate ratio of Olivia in each ethnic group}
 #| echo: false
 #| 
@@ -596,7 +599,7 @@ colnames(propData_ef2) <- c("Child_Name", "Black non-Hispanic - Female", "White 
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
-#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison " 
+#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison -BNH vs. WNH " 
 #| echo: false
 
 
@@ -613,12 +616,74 @@ ggplot(data = melt_prop2, aes(x = Child_Name, y = value, fill = variable)) +
        fill = "Ethnic Group")+
   theme_minimal()
 
-ggplot(melt_prop2, aes(x = Child_Name, y = value, fill = variable)) +
-  geom_bar(stat = "identity") +
-  facet_wrap(~Child_Name) +
-  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic", 
-       x = "Name", 
-       y = "Proportion")+
+#ggplot(melt_prop2, aes(x = Child_Name, y = value, fill = variable)) +
+#  geom_bar(stat = "identity") +
+#  facet_wrap(~Child_Name) +
+#  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic", 
+#       x = "Name", 
+#       y = "Proportion")+
+#  theme_minimal()
+
+```
+
+
+```{r calculate ratio of commonlarity in WNH vs BNH}
+#| echo: false
+#| 
+
+
+#total_ef2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% summarise(total_BNH = sum(Count))
+
+#total_count <- total_ef2$total_BNH
+
+#freq_ef2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_BNH = sum(Count)) %>% ungroup()
+
+prop_ef22 <- freq_ef2 %>%
+  mutate(prop_F_BNH = freqF_BNH / total_count) %>%
+  filter(Child.s.First.Name %in% c('olivia', 'ava', 'isabella', 'mia'))
+
+##-------------------------------------------------------------###
+
+#total_ef4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% summarise(total_WNH = sum(Count))
+
+#total_count4 <- total_ef4$total_WNH
+
+#freq_ef4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_WNH = sum(Count)) %>% ungroup()
+
+prop_ef44 <- freq_ef4 %>% 
+  mutate(prop_F_WNH = freqF_WNH / total_count4) %>% 
+  filter(Child.s.First.Name %in% c('olivia', 'ava', 'isabella', 'mia'))
+
+propData_ef22 <- data.frame(prop_ef22$Child.s.First.Name, prop_ef2$prop_F_BNH , prop_ef4$prop_F_WNH)
+colnames(propData_ef22) <- c("Child_Name", "Black non-Hispanic - Female", "White non-Hispanic - Female")
+
+```
+
+
+
+We also extract the top 20 common names shared between BNH and WNH and calculate their proportions, which are then plotted in the figure below. These names are used by both ethnic groups, but WNH shows a higher preference for them than BNH. 
+
+
+```{r}
+#| label: fig-ethnic3
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison -BNH vs. WNH"
+#| echo: false
+
+
+melt_prop22 <- melt(propData_ef22, id.vars = 'Child_Name')
+melt_prop22$variable <- as.character(melt_prop22$variable )
+
+ggplot(data = melt_prop22, aes(x = Child_Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic",
+       subtitle = "within top 20", 
+       x = "Name",
+       y = "Proportion",
+       fill = "Ethnic Group")+
   theme_minimal()
 
 ```
