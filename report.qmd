@@ -69,13 +69,7 @@ library(ggwordcloud)
 
 ### Description of the Data set
 
-This dataset, `BabyNames`, consist of the popular baby names by sex and ethnic group from 2011 to 2019. It was collected through civil birth registration system. Each row represents a popular baby first name. The dataset includes 6 columns, each indicating a different feature of each first name:
-1. `Year of Birth`: a quantitative variable indicating the baby's year of birth, ranging from 2011 to 2019. 
-2. `Gender`: a categorical variable with two categories-Male and Female. 
-3. `Ethnicity`: a categorical indicating the mother's ethnicity
-4. `Child.s.First.Name`: a categorical variable representing the baby's first name; 
-5. `Count`: a quantitative variable representing the frequency with which names were collected through civil birth registration.
-6. `Rank`: a categorical variable representing the frequency of baby names in descending order for each year.
+This dataset, `BabyNames`, consist of the popular baby names by sex and ethnic group from 2011 to 2019. It was collected through civil birth registration system. Each row represents a popular baby first name. The dataset includes 6 columns, each indicating a different feature of each first name: 1. `Year of Birth`: a quantitative variable indicating the baby's year of birth, ranging from 2011 to 2019. 2. `Gender`: a categorical variable with two categories-Male and Female. 3. `Ethnicity`: a categorical indicating the mother's ethnicity 4. `Child.s.First.Name`: a categorical variable representing the baby's first name; 5. `Count`: a quantitative variable representing the frequency with which names were collected through civil birth registration. 6. `Rank`: a categorical variable representing the frequency of baby names in descending order for each year.
 
 ### Cleaning the Data
 
@@ -85,25 +79,25 @@ In the data cleaning phase, we imported the dataset and discovered that it does 
 
 ### Aims
 
-First, we display the top ten most popular first names for each gender and ethnic group using bar charts. These charts are easily readable, with the top 10 popular baby first names displayed on the horizontal axis and the frequency of each name shown on the vertical axis. We present eight charts for various ethnic groups, each chart representing the top 10 baby first names for both males and females across four distinct ethnic groups. While these charts effectively identify the most popular names within each group, comparing common names across all groups simultaneously poses a challenge. To address this, we have created a combined dataset and represented it in a bar graph.
+First, we display the top ten most popular first names for each gender and ethnic group using bar charts. These charts are easily readable, with the top 10 popular baby first names displayed on the horizontal axis and the frequency of each name shown on the vertical axis. We present eight charts for various ethnic groups, each chart representing the top 10 baby first names for both males and females across four distinct ethnic groups. While these charts effectively identify the most popular names within each group, comparing common names across all groups simultaneously poses a challenge. To address this, we have created a combined dataset and presented the results in side by side bar graphs. Besides, we use side-by-side bar charts to display the frequency of unisex names.
 
 Our next objective is to analyze the average length of names over time and determine if shorter names have become more popular. We address this question by displaying a time plot showing the average length of first names recorded in our dataset from 2011 to 2019, which illustrates the trend over this period.
 
-Additionally, we examine how names rank over time to identify significant changes in their popularity. This analysis allows us to see if a name suddenly becomes very popular or declines in popularity during certain years. It also helps us understand if the most favored names remain constant over time or if they change for boys, girls, and across different ethnic groups. It also offers insights into how different groups of people choose names and whether these preferences evolve over time. 
+Additionally, we examine how names rank over time to identify significant changes in their popularity. This analysis allows us to see if a name suddenly becomes very popular or declines in popularity during certain years. It also helps us understand if the most favored names remain constant over time or if they change for boys, girls, and across different ethnic groups. It also offers insights into how different groups of people choose names and whether these preferences evolve over time.
 
 Finally,explore the sounds or phonetics present in various names. By examining the sounds that compose these popular names, we can uncover the recurring phonetic patterns that contribute to their creation and popularity. By delving into the phonetic makeup of names, we can identify common patterns or distinctive sounds that contribute to the appeal of certain names.(Haven't figured out how to do this exactly)
 
 ## Methods
 
-After reading data files, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. To check for missing values in raw data, we used the `sum(is.na())` function. Observing some repeated rows, we used the `distinct()` function to extract unique rows from the raw data. 
- 
+After reading data files, we used `str()` function to display the structure of the data, identifying both categorical and quantitative variables. To check for missing values in raw data, we used the `sum(is.na())` function. Observing some repeated rows, we used the `distinct()` function to extract unique rows from the raw data.
+
 In subsetting the dataset for different genders and ethnic groups, we primarily used `dplyr` functions `group_by`, `filter`, `summarise`, `arrange` and `mutate`[@dplyr-package]. For instance, to generate a dataset of popular baby names for each gender, we first selected males using the `filter` function. Then we applied `group_by` to create the dataset of all males names, followed by `summarize` to count the frequencies of each name's occurrence. To sort the dataset, we used `arrange` function to order the names by frequency and the head function to extract the top 10 popular male baby names. For the top 10 popular females names, we simply changed male to female in the `filter` function. Similarly, to generate datasets for four different ethnic groups, we modified the selection criterion in `filter` function. Moreover, we used two conditions in the `filter` function to generate datasets for each gender within a specific ethnic group.
 
-To investigate common results (unisex names) between datasets of different genders within the same ethnic group, we used the `inner_join()` function  to combine these datasets and identify any overlapping names.
+To investigate common results (unisex names) between datasets of different genders within the same ethnic group, we used the `inner_join()` function to combine these datasets and identify any overlapping names.
 
-Additionally, for analyzing the length of names, we used the `str_count` function[@stringr-package] to calculate the number of letters in each name. We also used `group_by`, `mutate` function[@dplyr-package] to add columns showing this count, calculate number of characters for each name, and total length. Then we applied `mean` function to calculate the average name lenght for each gender from year 2011 to 2019.  
+Additionally, for analyzing the length of names, we used the `str_count` function[@stringr-package] to calculate the number of letters in each name. We also used `group_by`, `mutate` function[@dplyr-package] to add columns showing this count, calculate number of characters for each name, and total length. Then we applied `mean` function to calculate the average name lenght for each gender from year 2011 to 2019.
 
-For data visualization, we primarily used the `ggplot` function[@ggplot2-package]. To generate a bar graph for the popular male names, we used `geom_bar` layer and used `aes mapping` function to define x and y variables. We then add `themes` and `labs` as layers for displaying the title of the plot and labels for the x and y axes. Finally, we applied `theme_minimal()` to make a minimalist theme with no background annotations. 
+For data visualization, we primarily used the `ggplot` function[@ggplot2-package]. To generate a bar graph for the popular male names, we used `geom_bar` layer and used `aes mapping` function to define x and y variables. We then add `themes` and `labs` as layers for displaying the title of the plot and labels for the x and y axes. Finally, we applied `theme_minimal()` to make a minimalist theme with no background annotations.
 
 When creating a line group, we replaced `geom_bar` with `geom_line` and `geom_point`. Thus, the general process for generating plots remained consistent; we only needed to modify the layers to produce different types of visualizations. Additionally, we created a word cloud using the `wordcloud` function [@worldcloud-package] providing a graphical representation of the popular names.
 
@@ -165,7 +159,8 @@ ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
 
 We can see the top 10 names for each gender on horizontal axis from these two bar charts, and the frequency of each name displayed on vertical axis.
 
-In each bar chart, we clearly display the top 10 males and females names for each ethnic group, as shown in Figures 1.2.1 to 1.2.8. These charts make it easy to read the names specific to each ethnic group within each gender. However, the question arises: how do we visualize some names shared among different ethnic groups? Are there any names that are used by both White non-Hispanic (WNH) males and Black non-Hispanic (BNH) males? Or by both White non-Hispanic (WNH) females and Black non-Hispanic (BNH) females? To address these questions, we merged datasets from two ethnic groups. We then plotted the results to highlight any such commonalities from Figures 3 to Figure 10.
+
+In the bar charts presented in Figures 3 to Figure 10, we clearly display the top 10 male and female names for each ethnic group.
 
 ```{r filter dataset by ethnic groups}
 #| echo: false
@@ -359,6 +354,9 @@ ggplot(data = ef4_data, aes(x = Child.s.First.Name, y = freqF_WNH)) +
       theme_minimal()
 ```
 
+
+These charts make it easy to read the names specific to each ethnic group within each gender. However, the question arises: how do we visualize some names shared among different ethnic groups? For instance, are there names shared by both White non-Hispanic (WNH) males and Black non-Hispanic (BNH) males, or by WNH females and BNH females? To address these questions, we merged datasets from two ethnic groups and plotted the results.
+
 ```{r merge data sets for all males and females WNH and BNH 10 to 20}
 #| echo: false
 #| 
@@ -422,7 +420,8 @@ inner_F50 <- inner_join(ef50_BNH_data, ef50_WNH_data, by = "Child.s.First.Name")
 ####-----------------------------------------------------------------------####
 ```
 
-After merging the datasets of White non-Hispanic (WNH) and Black non-Hispanic (BNH) for the top 10 names among males and females, we found no common names among the males and only one common name, `Olivia`, among females. When we expanded the list to the top 20 names, we discovered three common names for boys and four for girls used across both ethnic groups. Although extending the range of names revealed more commonalities, the frequency of each name varied significantly between the groups. To illustrate this, we plotted a side-by-side bar chart showing the frequency of names between WNH and BNH. Our aim is to convey that different ethnic groups tend to use different names, largely influenced by cultural differences. The results are displayed from Figure 11 to Figure 13.
+
+After merging the datasets for White non-Hispanic (WNH) and Black non-Hispanic (BNH) to identify the top 10 names among males and females, we found no common names among the males, and only one common name, `Olivia`, among females. Expanding our analysis to the top 20 names, we discovered three common names for boys and four for girls shared across both ethnic groups (Figure 11 and Figure 13). While broadening the range of names revealed more commonalities, the frequency of each name varied significantly between the groups. To show the results, we created side-by-side bar charts showing the frequency of names between WNH and BNH for each gender. Our goal is to convey that different ethnic groups tend to favor different names, and the reason is they have different cultures. The results are displayed in Figure 11 to Figure 13.
 
 ```{r}
 #| label: fig-ethnic1
@@ -553,7 +552,8 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
   theme_minimal()
 ```
 
-We are also interested in unisex names, which are used for both genders. The results are shown in Figure 16.
+
+When investigating common names across different ethnic groups, we also explored the presence of unisex names – those used for both males and females. The findings regarding these unisex names are presented in Figure 16.
 
 ```{r Develop Unisex Name: merge males and females within the same ethnic groups}
 #| echo: false
@@ -671,9 +671,11 @@ ggplot(data = df_long, aes(x = Child.s.First.Name, y = Frequency, fill = Gender)
   theme_minimal()
 ```
 
-What surprised us is that 'Dylan' is popular for both males and females. This popularity can be attributed to its meaning, 'son of the sea,' which retains a poetic, windswept quality, particularly when used for girls (Source: [Dylan](https://nameberry.com/babyname/dylan/girl)). Additionally, 'Avery' traditionally a boy's name meaning 'ruler of the elves' in English, is now more common for girls (Source: [Avery](https://nameberry.com/babyname/avery/girl)). We also observed that 'Tenzin' is exclusively used in Asian and Pacific Islander (API) groups, for both males and females. The name Tenzin, meaning 'Holder of the teaching,' is chosen in API communities, reflecting a significant religious influence (Source: [Tenzin](https://nameberry.com/babyname/tenzin/girl)). Overall, the choice of unisex names is primarily influenced by their meanings, but religious and cultural factors also play a crucial role.
+In Figure 16, we were surprised to find that 'Dylan', a name meaning 'son of the sea,' is popular for both males and females. Its poetic and windswept connotations may contribute to its appeal, especially for girls (Source: [Dylan](https://nameberry.com/babyname/dylan/girl)). Additionally, 'Avery,' originally a boy's name meaning 'ruler of the elves' in English, has become more commonly used for girls (Source: [Avery](https://nameberry.com/babyname/avery/girl)). We also observed that 'Tenzin' is exclusively used in Asian and Pacific Islander (API) communities for both genders. The name, which means 'Holder of the teaching,' reflects a strong religious influence within API communities (Source: [Tenzin](https://nameberry.com/babyname/tenzin/girl)). Overall, the choice of unisex names is primarily influenced by their meanings, but religious and cultural factors also play a crucial role.
 
-Figure 17 and Figure 18 displays the average length of names for each gender, and each ethnic group.
+
+
+Next, we developed time plots to display the average length of names for each gender and ethnic group, which are presented in Figures 17 and 18.
 
 ```{r calculate average length of letters for names}
 #| echo: false
@@ -732,7 +734,8 @@ ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, col
     theme_minimal()
 ```
 
-The time plot shows the average length of letters in baby first names from 2011 to 2019, we observe that, overall, the average length of names has decreased over time. The primary reason for this trend is a growing preference for shorter names. Many people today favor short names as they are easier to remember and can also be more unique. In exploring other factors contributing to the popularity of short names, Katie highlighted that shorter names are often associated with higher salaries in "Study: Short Names Are Long on Earning Power". (Source:[Popularity](https://daily.jstor.org/science-baby-names/) [Shorter Name Higher Salary](https://associationsnow.com/2013/05/study-short-names-are-long-on-earning-power/) [Study Says Shorter Names Earn More](https://www.forbes.com/sites/laurashin/2013/05/07/study-says-shorter-names-earn-more/?sh=443c788972ea))
+The time plot reveals the average length of names has generally decreased over time. The primary reason for this trend is a growing preference for shorter names. This trend appears to be driven by a growing preference for shorter names. Many people today prefer short names because they are easier to remember and can often be more distinctive. There are other factors influenced the popularity of short names. For instance, Katie, in her article 'Study: Short Names Are Long on Earning Power,' states that shorter names are often associated with higher salaries, highlighting another potential reason for their increasing popularity. (Source:[Popularity](https://daily.jstor.org/science-baby-names/) [Shorter Name Higher Salary](https://associationsnow.com/2013/05/study-short-names-are-long-on-earning-power/) [Study Says Shorter Names Earn More](https://www.forbes.com/sites/laurashin/2013/05/07/study-says-shorter-names-earn-more/?sh=443c788972ea))
+
 
 Here we are trying to understand the variation of the most popular baby names from 2011-2019. A line plot is used to analyze this and clearly see the trend over the years.
 
@@ -760,9 +763,6 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
   labs(title = "Most popular names for Male Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
 ```
-
-
-
 
 ```{r}
 #| label: fig-PopularNamesM2
@@ -819,9 +819,6 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   labs(title = "Most popular names for Male Black Non-Hispanics", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
 ```
 
-
-
-
 ```{r}
 #| label: fig-PopularNamesF1
 #| fig-width: 8
@@ -841,8 +838,6 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   labs(title = "Most popular name for female Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
 
 ```
-
-
 
 ```{r}
 #| label: fig-PopularNamesF2
@@ -899,7 +894,6 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   labs(title = "Most popular name for female Black Non-Hispanics", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
 ```
 
-
 ```{r}
 #| label: fig-PopularNamesE1
 #| fig-width: 8
@@ -921,8 +915,6 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count, color = Ethnicity, fill = Ethnicit
  
 ```
 
-
-
 ```{r}
 #| label: fig-PopularNamesE2
 #| fig-width: 8
@@ -941,8 +933,6 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count, fill = Ethnicity, color = Ethnicit
   scale_y_continuous(breaks = seq(100, 450, by=50))+
   labs(title = "Most popular names for females by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
 ```
-
-
 
 ```{r}
 #A function to find the most popular names of MALES and FEMALE (Not considering the ethnicity) 
@@ -1040,7 +1030,6 @@ ggplot(modified_data, aes(x = Rank, y = Count)) +
 
 The scatter plot for Rank vs Count variable was drawn as a part of the analysis of the rank variable and is helpful to get an understanding of the behavior of the two variable respect to each other. And as the plot suggests the higher rank is given to names with a higher frequency.
 
-
 ```{r}
 #| label: fig-Rank
 #| fig-width: 8
@@ -1057,7 +1046,6 @@ ggplot(modified_data, aes(x = Rank)) +
 ```
 
 This plot shows the distribution of the rank variable. And as the plot suggest there are multiple names with the same rank that has similar frequencies.
-
 
 Creating a word cloud for the popular baby names
 
@@ -1080,7 +1068,6 @@ modified_data %>%
 title(main = "Most popolar baby names for males")
 ```
 
-
 ```{r}
 #| label: fig-wordcloudF
 #| fig-width: 8
@@ -1102,7 +1089,6 @@ title(main = "Most popolar baby names for females")
 ```
 
 The word clouds displaying popular names for males and females reveal that several names occur much more frequently than others and the difference between the most popular names appears to be quite slight.
-
 
 ## Additional Exploration topic
 
