@@ -473,6 +473,16 @@ ggplot(data = melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) 
        fill = "Ethnic Group")+
   theme_minimal()
 
+
+#ggplot(melt_F2, aes(x = Child.s.First.Name, y = value, fill = variable)) +
+#  geom_bar(stat = "identity") +
+#  facet_wrap(~Child.s.First.Name) +
+#  labs(title = "Common Females Frist Name Between Black non-Hispanic and White non-Hispanic", 
+#       x = "Name", 
+#       y = "Frequency")+
+#  theme_minimal()
+
+
 ```
 
 ```{r}
@@ -551,6 +561,68 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
        fill = "Ethnic Group") +
   theme_minimal()
 ```
+
+
+```{r calculate ratio of Olivia in each ethnic group}
+#| echo: false
+#| 
+
+total_ef2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% summarise(total_BNH = sum(Count))
+
+total_count <- total_ef2$total_BNH
+
+freq_ef2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_BNH = sum(Count)) %>% ungroup()
+
+prop_ef2 <- freq_ef2 %>% mutate(prop_F_BNH = freqF_BNH / total_count) %>% filter(Child.s.First.Name == 'olivia')
+##-------------------------------------------------------------###
+
+total_ef4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% summarise(total_WNH = sum(Count))
+
+total_count4 <- total_ef4$total_WNH
+
+freq_ef4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_WNH = sum(Count)) %>% ungroup()
+
+prop_ef4 <- freq_ef4 %>% mutate(prop_F_WNH = freqF_WNH / total_count4) %>% filter(Child.s.First.Name == 'olivia')
+
+propData_ef2 <- data.frame(prop_ef2$Child.s.First.Name, prop_ef2$prop_F_BNH , prop_ef4$prop_F_WNH)
+colnames(propData_ef2) <- c("Child_Name", "Black non-Hispanic - Female", "White non-Hispanic - Female")
+
+```
+
+
+
+```{r}
+#| label: fig-prop1
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison " 
+#| echo: false
+
+
+melt_prop2 <- melt(propData_ef2, id.vars = 'Child_Name')
+melt_prop2$variable <- as.character(melt_prop2$variable )
+
+
+ggplot(data = melt_prop2, aes(x = Child_Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic",
+       x = "Name",
+       y = "Proportion",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
+ggplot(melt_prop2, aes(x = Child_Name, y = value, fill = variable)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Child_Name) +
+  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic", 
+       x = "Name", 
+       y = "Proportion")+
+  theme_minimal()
+
+```
+
 
 
 When investigating common names across different ethnic groups, we also explored the presence of unisex names – those used for both males and females. The findings regarding these unisex names are presented in Figure 16.
