@@ -665,7 +665,7 @@ We also extract the top 20 common names shared between BNH and WNH and calculate
 
 
 ```{r}
-#| label: fig-ethnic3
+#| label: fig-ethnic31
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
@@ -1071,6 +1071,10 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count, fill = Ethnicity, color = Ethnicit
   labs(title = "Most popular names for females by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
 ```
 
+
+Through these plots, we visualize the dynamic trends in name popularity, revealing notable spikes or dips in specific years. The plots illustrate whether certain names experience rapid surges or declines in favor and whether there are enduring or shifting preferences across different ethnic groups. Additionally, they showcase the evolving patterns in name selection, providing a comprehensive view of how naming preferences evolve over time.
+
+
 ```{r}
 #A function to find the most popular names of MALES and FEMALE (Not considering the ethnicity) 
 
@@ -1225,7 +1229,8 @@ modified_data %>%
 title(main = "Most popolar baby names for females")
 ```
 
-The word clouds displaying popular names for males and females reveal that several names occur much more frequently than others and the difference between the most popular names appears to be quite slight.
+A word cloud is a visual representation of text data. Typically, the more frequently a word appears in the source material, the larger and more prominently it is displayed in the word cloud. The aim of having a word cloud is that, it provides a quick an an intuitive way to comprehend the most prevalent names.
+The word clouds displaying popular names for boys and girls highlight a clear trend: a small group of names appears frequently, while many others show up less often. This suggests that a handful of names are super popular, while the rest are not as commonly used in the dataset.
 
 ## Additional Exploration topic
 
@@ -1238,3 +1243,6 @@ Overall, we are also curious about whether there is a method to specifically sea
 Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic, use different baby names, and it reflects diverse cultures. Currently, unisex names appear to be a trend, indicating that parents are prioritizing the meanings of names and moving away from traditional naming conventions. Additionally, there has been a noticeable decrease in the average length of names over time, with a growing preference for shorter names. In the time plot, the average length of names for females decreased from 5.925 to 5.725, and for males, it decreased from 5.75 to 5.65. In another time plot, which focused on ethnic groups, all groups exhibited a decreasing trend in the average length of names from 2011 to 2019. This trend might be influenced by the notion, as highlighted in an article, that 'a shorter name could lead to more financial success.' Such a belief could lead parents to choose shorter names and they hope their children will achieve greater success.
 
 From the time plot of each ethnic group, `Jayden` is a very popular males name no matter which ethnic group, while for female names in different ethnic group, the names are different. `Isabella` is popular in Hispanic, `Olivia` is popular in both White Non-Hispanic and Asian Pacific Islander and `Madison` is popular in Black Non-Hispanic. In the word cloud figure, people can easily to view the popular names and the word cloud make it vivid.
+
+
+Across diverse ethnicities from 2011 to 2019, the names `Jayden` and `Liam` were widely favored for baby boys, while `Isabella`, `Olivia`, and `Esther` were popular choices for baby girls. This trend remained consistent regardless of cultural backgrounds. A consistent trend observed through search engine queries on popular baby names in the United States reaffirmed Liam's prominence among boys and Olivia's popularity among girls. Our analysis concurs with these findings, highlighting a consistent national preference for these particular names.
