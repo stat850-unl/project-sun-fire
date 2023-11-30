@@ -97,7 +97,11 @@ When we investigate the common results (unisex names) between two datasets consi
 
 Additionally, regarding the length of names, we used `str_count` function[@stringr-package] to calculate the number of letters in each name, and `group_by`, `mutate` function[@dplyr-package] to add columns displaying this count, calculate number of length for each name and total length. Then applied `mean` function to calculate the average length name for each gender from year 2011 to 2019.  
 
-For data visualization, the `ggplot` function[@ggplot2-package] was our primary tool. To generate a bar graph for the popular males names, we used `geom_bar` for the layers and `aes mapping` function to map x and y variable, then add `themes` and `labs` as layers for displaying the title of the plot and names of x and y axis, lastly, add  `theme_minimal()` to make a minimalist theme with no background annotations. When we ploted a line group, we replaced the `geom_bar` with `geom_line` and `geom_point`. So the general process of generating the plots are the same, we only need to modify the layers to get different types of plots.
+To observe the variation of the most popular baby names from 2011-2019. A line plot is used to analyze this and clearly see the trend over the years. This was analyzed for each ethnic group (male and female) as well as in general for males and females. 
+
+For data visualization, the `ggplot` function[@ggplot2-package] was our primary tool. To generate a bar graph for the popular males names, we used `geom_bar` for the layers and `aes mapping` function to map x and y variable, then add `themes` and `labs` as layers for displaying the title of the plot and names of x and y axis, lastly, add  `theme_minimal()` to make a minimalist theme with no background annotations. When we ploted a line group, we replaced the `geom_bar` with `geom_line` and `geom_point`. So the general process of generating the plots are the same, we only need to modify the layers to get different types of plots. Additionally, a word cloud was integrated with the `wordcloud` function [@worldcloud-package] into the data visualization process to illustrate the popular names graphically.
+
+
 
 we created a shiny app in order that we can search or filter by a category to explore the data.
 
@@ -653,6 +657,8 @@ inner_2019_count <- inner_2019 %>% count('Child.s.First.Name')
 #| echo: false
 
 
+
+
 ggplot(data = df_long, aes(x = Child.s.First.Name, y = Frequency, fill = Gender)) + 
   geom_bar(stat = "identity", position = position_dodge()) +  
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +  
@@ -732,9 +738,15 @@ Here we are trying to understand the variation of the most popular baby names fr
 top10_names <- modified_data %>% filter(Rank %in% c(1:10))
 ```
 
-```{r Most popular name for the males in the each ethinc group, warning=FALSE}
+```{r }
+#| label: fig-PopularNamesM1
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for Male Hispanics"
+#| echo: false
 
-#Most popular name for the males in the each ethinc group
+
 
 df1 <- top10_names %>% filter(Ethnicity == "HISPANIC" & Gender == "MALE") %>% arrange(Rank) %>% head(9)
 
@@ -745,9 +757,18 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
   labs(title = "Most popular names for Male Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+```
 
 
 
+
+```{r}
+#| label: fig-PopularNamesM2
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for Male White Non-Hispanics"
+#| echo: false
 
 df1 <- top10_names %>% filter(Ethnicity == "WHITE NON HISPANIC"  & Gender == "MALE") %>% arrange(Rank) %>% head(9)
 
@@ -757,9 +778,17 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
   labs(title = "Most popular names for Male White Non-Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+```
+
+```{r}
+#| label: fig-PopularNamesM3
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for  Male Asian Pacific Islanders"
+#| echo: false
 
 
-        
 df1 <- top10_names %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER"  & Gender == "MALE") %>% arrange(Rank) %>% head(9)
 
 ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
@@ -768,8 +797,15 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
   labs(title = "Most popular names for  Male Asian Pacific Islanders", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")   
+```
 
-
+```{r}
+#| label: fig-PopularNamesM4
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for Male Black Non-Hispanic"
+#| echo: false
 
 df1 <- top10_names %>% filter(Ethnicity == "BLACK NON HISPANIC"  & Gender == "MALE") %>% arrange(Rank) %>% head(9)
 
@@ -778,16 +814,19 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.25, color = "blue", size = 4) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
-  labs(title = "Most popular names for Male Black Non-Hispanics", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")   
-  
-
-
-
-
+  labs(title = "Most popular names for Male Black Non-Hispanics", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
 ```
 
-```{r Most popular name for the females in the each ethinc group, warning=FALSE}
-#Most popular name for the females in the each ethinc group
+
+
+
+```{r}
+#| label: fig-PopularNamesF1
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular name for female Hispanics "
+#| echo: false
 
 df1 <- top10_names %>% filter(Ethnicity == "HISPANIC" & Gender == "FEMALE") %>% arrange(Rank) %>% head(9)
 
@@ -797,10 +836,19 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.25, color = "blue", size = 4) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
-  labs(title = "Most popular name for FEMALE Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+  labs(title = "Most popular name for female Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+
+```
 
 
 
+```{r}
+#| label: fig-PopularNamesF2
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular name for female White Non-Hispanics  "
+#| echo: false
 
 df1 <- top10_names %>% filter(Ethnicity == "WHITE NON HISPANIC"  & Gender == "FEMALE") %>% arrange(Rank) %>% head(9)
 
@@ -809,10 +857,17 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.25, color = "blue", size = 4) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
-  labs(title = "Most popular name for FEMALE White Non-Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+  labs(title = "Most popular name for female White Non-Hispanics ", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+```
 
+```{r}
+#| label: fig-PopularNamesF3
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular name for  female Asian Pacific Islanders"
+#| echo: false
 
-        
 df1 <- top10_names %>% filter(Ethnicity == "ASIAN AND PACIFIC ISLANDER"  & Gender == "FEMALE") %>% arrange(Rank) %>% head(9)
 
 ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
@@ -820,9 +875,17 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.25, color = "blue", size = 4) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
-  labs(title = "Most popular name for  FEMALE Asian Pacific Islanders", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")   
+  labs(title = "Most popular name for  female Asian Pacific Islanders", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")   
 
+```
 
+```{r}
+#| label: fig-PopularNamesF4
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular name for female Black Non-Hispanics"
+#| echo: false
 
 df1 <- top10_names %>% filter(Ethnicity == "BLACK NON HISPANIC"  & Gender == "FEMALE") %>% arrange(Rank) %>% head(9)
 
@@ -831,12 +894,17 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count )) +
   geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.25, color = "blue", size = 4) +
   geom_text(aes(label = c(Count)), nudge_x = 0.25, nudge_y = 5, color = "black", size = 3.5) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
-  labs(title = "Most popular name for FEMALE Black Non-Hispanics", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
+  labs(title = "Most popular name for female Black Non-Hispanics", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
 ```
 
-```{r Most popular names for Males under each Ethnic group}
 
-#Most popular names for Males under each Ethnic group
+```{r}
+#| label: fig-PopularNamesE1
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for Males by Ethnicity"
+#| echo: false
 
 df1 <- top10_names %>% filter(Gender == "MALE", Rank == 1) 
 
@@ -846,9 +914,20 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count, color = Ethnicity, fill = Ethnicit
   guides(fill = guide_legend(override.aes = aes(color = NA))) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
   scale_y_continuous(breaks = seq(100, 450, by=50))+
-  labs(title = "Most popular names for Males by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
+  labs(title = "Most popular names for males by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
 
-#Most popular names for Feales under each Ethnic group
+ 
+```
+
+
+
+```{r}
+#| label: fig-PopularNamesE2
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for females by Ethnicity"
+#| echo: false
 
 df1 <- top10_names %>% filter(Gender == "FEMALE", Rank == 1) 
 
@@ -858,8 +937,10 @@ ggplot(df1, aes(x = Year.of.Birth, y = Count, fill = Ethnicity, color = Ethnicit
   guides(fill = guide_legend(override.aes = aes(color = NA))) +
   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
   scale_y_continuous(breaks = seq(100, 450, by=50))+
-  labs(title = "Most popular names for Females by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
+  labs(title = "Most popular names for females by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
 ```
+
+
 
 ```{r}
 #A function to find the most popular names of MALES and FEMALE (Not considering the ethnicity) 
@@ -911,8 +992,14 @@ df <- find_popular_names()
 ```
 
 ```{r, warning=FALSE}
+#| label: fig-PopularNames
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Most popular names for each Gender (Regardless of ethnicity)"
+#| echo: false
 
-#Plot to show how the Rank 1 names have varied over the years(Not considering the ethnicity)
+
 ggplot(df, aes(x = Year.of.Birth, y = freq, fill=Gender, color = Gender)) +
   geom_line(linetype = "solid", size = 1.5) +
    scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019))+
@@ -928,7 +1015,15 @@ The names **Jayden** and **Liam** held the top positions as the most popular cho
 A search engine query for the most popular baby names in the United States consistently showcased **Liam** as the leading choice for boys and **Olivia** as the foremost pick for girls. Our analysis aligns with these findings, reflecting a parallel preference for these names across the nation.
 
 ```{r}
-#Relationship between the Rank and the Count variable
+#| label: fig-Rank_Count
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Relationship between the Rank and the Count variable"
+#| echo: false
+
+
+
 ggplot(modified_data, aes(x = Rank, y = Count)) +
   geom_point(color = "lightblue") +
   labs(title = "Rank vs the Count",
@@ -941,9 +1036,17 @@ ggplot(modified_data, aes(x = Rank, y = Count)) +
 
 ```
 
-```{r}
+The scatter plot for Rank vs Count variable was drawn as a part of the analysis of the rank variable and is helpful to get an understanding of the behavior of the two variable respect to each other. And as the plot suggests the higher rank is given to names with a higher frequency.
 
-#Distribution of the rank variable
+
+```{r}
+#| label: fig-Rank
+#| fig-width: 8
+#| fig-height: 4 # Change the figure dimensions using fig-width/height
+#| out-width: 80% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Distribution of the rank variable"
+#| echo: false
+
 ggplot(modified_data, aes(x = Rank)) +
   geom_histogram(binwidth = 5, fill = "skyblue", color = "black", alpha = 0.7) +
   labs(title = "Distribution of Rank Variable",
@@ -951,9 +1054,18 @@ ggplot(modified_data, aes(x = Rank)) +
        y = "Frequency")
 ```
 
+This plot shows the distribution of the rank variable. And as the plot suggest there are multiple names with the same rank that has similar frequencies.
+
+
 Creating a word cloud for the popular baby names
 
 ```{r word cloud}
+#| label: fig-wordcloudM
+#| fig-width: 8
+#| fig-height: 5 # Change the figure dimensions using fig-width/height
+#| out-width: 100% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Word cloud for the most popolar baby names for males"
+#| echo: false
 
 modified_data %>% 
   filter(Gender == "MALE" & Rank %in% c(1:100)) %>% 
@@ -964,7 +1076,16 @@ modified_data %>%
                  scale = c(2, 0.5), 
                  colors = brewer.pal(8, "Dark2")))
 title(main = "Most popolar baby names for males")
+```
 
+
+```{r}
+#| label: fig-wordcloudF
+#| fig-width: 8
+#| fig-height: 5 # Change the figure dimensions using fig-width/height
+#| out-width: 100% # This changes the size of the figure as rendered in the text. 
+#| fig-cap: "Word cloud for the most popolar baby names for females"
+#| echo: false
 
 
 modified_data %>% 
@@ -976,9 +1097,10 @@ modified_data %>%
                  scale = c(2, 0.5), 
                  colors = brewer.pal(8, "Dark2")))
 title(main = "Most popolar baby names for females")
-  
-
 ```
+
+The word clouds displaying popular names for males and females reveal that several names occur much more frequently than others and the difference between the most popular names appears to be quite slight.
+
 
 ## Additional Exploration topic
 
