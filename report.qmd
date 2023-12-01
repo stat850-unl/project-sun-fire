@@ -627,7 +627,7 @@ ggplot(data = melt_prop2, aes(x = Child_Name, y = value, fill = variable)) +
 ```
 
 
-```{r calculate ratio of commonlarity in WNH vs BNH}
+```{r calculate ratio of commonlarity in WNH vs BNH for females}
 #| echo: false
 #| 
 
@@ -669,7 +669,7 @@ We also extract the top 20 common names shared between BNH and WNH and calculate
 #| fig-width: 8
 #| fig-height: 4 
 #| out-width: 80%  
-#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison -BNH vs. WNH"
+#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison -BNH vs. WNH Females"
 #| echo: false
 
 
@@ -679,7 +679,7 @@ melt_prop22$variable <- as.character(melt_prop22$variable )
 ggplot(data = melt_prop22, aes(x = Child_Name, y = value, fill = variable)) + 
   geom_bar(stat = "identity", position = position_dodge()) +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
-  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic",
+  labs(title = "Proportion of Female Names Between Black non-Hispanic and White non-Hispanic",
        subtitle = "within top 20", 
        x = "Name",
        y = "Proportion",
@@ -688,6 +688,72 @@ ggplot(data = melt_prop22, aes(x = Child_Name, y = value, fill = variable)) +
 
 ```
 
+
+```{r calculate ratio of commonlarity in WNH vs BNH for males}
+#| echo: false
+#| 
+
+
+
+total_em2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% summarise(total_BNH = sum(Count))
+
+total_count_em2 <- total_em2$total_BNH
+
+freq_em2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% ungroup()
+
+prop_em2 <- freq_em2 %>% mutate(prop_M_BNH = freqM_BNH / total_count) %>% 
+  select(Child.s.First.Name, prop_M_BNH) %>%  arrange(desc(prop_M_BNH))
+
+
+##-------------------------------------------------------------###
+
+total_em4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% summarise(total_WNH = sum(Count))
+
+total_count_em4 <- total_em4$total_WNH
+
+freq_em4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_WNH = sum(Count)) %>% ungroup()
+
+prop_em4 <- freq_em4 %>% mutate(prop_M_WNH = freqM_WNH / total_count4) %>% 
+  select(Child.s.First.Name, prop_M_WNH) %>% arrange(desc(prop_M_WNH))
+
+
+
+##-------------------------------------------------------------###
+
+inner_em4 <- inner_join(prop_em2, prop_em4, by = "Child.s.First.Name") %>% 
+  filter(Child.s.First.Name %in%  c('david', 'jacob', 'michael', 'noah'))
+
+colnames(inner_em4) <- c("Child_Name", "Black non-Hispanic - Male", "White non-Hispanic - Male")
+
+```
+
+
+```{r}
+#| label: fig-ethnic31
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "Side-by-Side Bar Graph of Proportional Comparison -BNH vs. WNH Males"
+#| echo: false
+
+
+melt_prop4 <- melt(inner_em4, id.vars = 'Child_Name')
+melt_prop4$variable <- as.character(melt_prop4$variable )
+
+ggplot(data = melt_prop4, aes(x = Child_Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Proportion of Males Names Between Black non-Hispanic and White non-Hispanic",
+       subtitle = "within top 20", 
+       x = "Name",
+       y = "Proportion",
+       fill = "Ethnic Group")+
+  theme_minimal()
+
+```
+
+
+BNH prefers 'Noah' over WNH for naming a male baby. In the Bible, Noah was an important figure who built the Ark, saving his family and every species of animal. People from these two communities favor this name due to this religious reason (Source:[Noah](https://thebump.com/b/noah-baby-name)). Meanwhile, the other three names, David, Jacob, and Michael, are very popular, and some of your friends may likely be named one of them. 
 
 
 When investigating common names across different ethnic groups, we also explored the presence of unisex names – those used for both males and females. The findings regarding these unisex names are presented in Figure 16.
@@ -1236,13 +1302,9 @@ The word clouds displaying popular names for boys and girls highlight a clear tr
 
 From the time plot of the average name lengths, we observe that the mean length for male names is shorter than that for female names. Could this be due to males seeking more unique names? Additionally, the time plot for different ethnic groups shows that the average name length for Asians and Pacific Islanders is the shortest among the groups. This could be due to cultural factors. We might need to review additional articles to understand the background of Asian and Pacific Islander naming practices and investigate the differences between male and female names.
 
-Overall, we are also curious about whether there is a method to specifically search for a name in order to find all related information, such as its ranking and the years associated with it. To address this, we have created an interactive plot titled 'Babynames'. In this interactive plot, users can search for a name or filter by ethnic group/year to explore the data.
 
 ## Conclusion
 
 Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic, use different baby names, and it reflects diverse cultures. Currently, unisex names appear to be a trend, indicating that parents are prioritizing the meanings of names and moving away from traditional naming conventions. Additionally, there has been a noticeable decrease in the average length of names over time, with a growing preference for shorter names. In the time plot, the average length of names for females decreased from 5.925 to 5.725, and for males, it decreased from 5.75 to 5.65. In another time plot, which focused on ethnic groups, all groups exhibited a decreasing trend in the average length of names from 2011 to 2019. This trend might be influenced by the notion, as highlighted in an article, that 'a shorter name could lead to more financial success.' Such a belief could lead parents to choose shorter names and they hope their children will achieve greater success.
-
-From the time plot of each ethnic group, `Jayden` is a very popular males name no matter which ethnic group, while for female names in different ethnic group, the names are different. `Isabella` is popular in Hispanic, `Olivia` is popular in both White Non-Hispanic and Asian Pacific Islander and `Madison` is popular in Black Non-Hispanic. In the word cloud figure, people can easily to view the popular names and the word cloud make it vivid.
-
 
 Across diverse ethnicities from 2011 to 2019, the names `Jayden` and `Liam` were widely favored for baby boys, while `Isabella`, `Olivia`, and `Esther` were popular choices for baby girls. This trend remained consistent regardless of cultural backgrounds. A consistent trend observed through search engine queries on popular baby names in the United States reaffirmed Liam's prominence among boys and Olivia's popularity among girls. Our analysis concurs with these findings, highlighting a consistent national preference for these particular names.
