@@ -559,7 +559,7 @@ ggplot(data = inner_F1, aes(x = Child.s.First.Name, y = value, fill = variable))
   theme_minimal()
 ```
 
-Comparing the frequency of each name within each ethnic group might not be the best approach, as it could lead to fallacious conclusions. This method fails to account for the varying sizes of each ethnic group. A more effective comparison would involve using the proportion of each name within each ethnic group. By comparing these proportions, we can more accurately assess the popularity of names. In this analysis, we have displayed the proportions of the name 'Olivia' in both Black non-Hispanic and White non-Hispanic groups. Interestingly, it appears that the Black non-Hispanic group has a stronger preference for this name.
+Comparing the frequency of each name within each ethnic group might not be the best approach, as it could lead to fallacious conclusions. This method fails to account for the varying sizes of each ethnic group. A more effective comparison would involve using the proportion of each name within each ethnic group. By comparing these proportions, we can more accurately assess the popularity of names. In this analysis, we have displayed the proportions of the name 'Olivia' in both Black non-Hispanic and White non-Hispanic groups. Interestingly, it appears that the White non-Hispanic group has a stronger preference for this name.
 
 ```{r calculate ratio of Olivia in each ethnic group}
 #| echo: false
@@ -715,7 +715,6 @@ colnames(inner_em4) <- c("Child_Name", "Black non-Hispanic - Male", "White non-H
 
 ```
 
-
 ```{r}
 #| label: fig-ethnic32
 #| fig-width: 8
@@ -803,7 +802,6 @@ df_long <- pivot_longer(inner_COM,
                         names_prefix = "freq.")
 df_long$Gender <- recode(df_long$Gender, 'x' = 'FEMALE', 'y' = 'MALE')
 ```
-
 
 ```{r unisex name by year}
 #| echo: false
