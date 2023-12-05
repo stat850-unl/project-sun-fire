@@ -1,0 +1,450 @@
+---
+title: "STAT850 - BABY NAMES"
+author: "Samitha Herath & Fangfang Zhang"
+format: revealjs
+scrollable: true
+toc: false
+---
+
+------------------------------------------------------------------------
+
+## Description of the data set {.smaller}
+
+-   This dataset, `BabyNames`, consist of the popular baby names by sex and ethnic group from 2011 to 2019. It was collected through civil birth registration system.
+
+-   The dataset includes 6 columns:
+
+    -   `Year of Birth`: a quantitative variable indicating the baby's year of birth, ranging from 2011 to 2019
+    -   `Gender`: a categorical variable with two categories-Male and Female
+    -   `Ethnicity`: a categorical indicating the mother's ethnicity
+    -   `Child.s.First.Name`: a categorical variable representing the baby's first name
+    -   `Count`: a quantitative variable representing the frequency with which names were collected through civil birth registration
+    -   `Rank`: a categorical variable representing the frequency of baby names in descending order for each year.
+
+    The first few observations of the data set
+
+```{r}
+BabyNames <- read.csv("Popular_Baby_Names.csv")
+head(BabyNames)
+```
+
+## Methodology {.smaller}
+
+### Cleaning the data
+
+```{r, echo=FALSE, message=FALSE}
+#Required libraries
+library(tidyverse)
+library(reshape2)
+library(phonics)
+library(wordcloud)
+library(RColorBrewer)
+
+library(ggwordcloud)
+```
+
+```{r}
+
+BabyNames <- read.csv("Popular_Baby_Names.csv")
+
+
+
+BabyNames$Child.s.First.Name <- tolower(BabyNames$Child.s.First.Name)
+
+babynames<- unique(BabyNames) 
+
+modified_data <- babynames %>% mutate(Ethnicity = recode(Ethnicity, "BLACK NON HISP" = "BLACK NON HISPANIC" ,
+                                                      "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER",
+                                                      "WHITE NON HISP" = "WHITE NON HISPANIC" )) 
+```
+
+-   We identified and removed duplicate rows from the initial dataset.
+-   There are some ethic groups have the similar names such as `ASIAN AND PACIFIC ISLANDER` and `ASIAN AND PACI`, `BLACK NON HISPANIC` and `BLACK NON HISP` and `WHITE NON HISPANIC` and `WHITE NON HISP`. They are the same ethic groups but with different names, we combine them before we perform analysis
+
+### Methods
+
+-   In subsetting the dataset for different genders and ethnic groups, we primarily used `dplyr` functions `group_by`, `filter`, `summarise`, `arrange` and `mutate`[@dplyr-package].
+
+-   For instance, to generate a dataset of popular baby names for each gender, we first selected males using the `filter` function. Then we applied `group_by` to create the dataset of all males names, followed by `summarize` to count the frequencies of each name's occurrence.
+
+-   To investigate common results (unisex names) between datasets of different genders within the same ethnic group, we used the `inner_join()` function to combine these datasets and identify any overlapping names.
+
+-   For analyzing the length of names, we used the `str_count` function[@stringr-package] to calculate the number of letters in each name. We also applied `mean` function to calculate the average name lenght for each gender from year 2011 to 2019.
+
+-   For data visualization, `ggplot` function[@ggplot2-package].
+
+-   Creating a word cloud using the `wordcloud` function [@worldcloud-package] providing a graphical representation of the popular names.
+
+## Data Analysis {.smaller}
+
+```{r}
+#| echo: false
+
+# select top 10 female's names
+vf_data <- modified_data %>% 
+  filter(Gender == "FEMALE") %>% 
+  group_by(Child.s.First.Name, Gender) %>% 
+  summarise(freq = sum (Count),  .groups = "drop") %>% 
+  arrange(desc(freq)) %>% head(10)
+
+# select top 10 male's names
+vm_data <- modified_data %>% 
+  filter(Gender == "MALE") %>% 
+  group_by(Child.s.First.Name, Gender) %>%
+  summarise(freq = sum(Count), .groups = "drop") %>% 
+  arrange(desc(freq)) %>% 
+  head(10)
+```
+
+```{r}
+library(ggplot2)
+
+vm_data$Child.s.First.Name <-factor(vm_data$Child.s.First.Name, levels = vm_data$Child.s.First.Name) 
+
+ggplot(data=vm_data, aes(x= Child.s.First.Name, y=freq)) +
+  geom_bar(stat="identity", fill = 'steelblue2') +
+  theme(axis.text.x = element_text(angle =45, hjust = 1)) +
+  labs(title = "Top 10 Popular Male Babies' Names", 
+       subtitle = "from 2011 to 2019", 
+       x = "Child's First Name", 
+       y = "Count") + 
+    theme_minimal()
+
+vf_data$Child.s.First.Name <-factor(vf_data$Child.s.First.Name, levels = vf_data$Child.s.First.Name) 
+
+ggplot(data=vf_data, aes(x= Child.s.First.Name, y=freq)) +
+  geom_bar(stat="identity", fill = 'hotpink') +
+  theme(axis.text.x = element_text(angle =45, hjust = 1)) +
+  labs(title = "Top 10 Popular Female Babies' Names", 
+       subtitle = "from 2011 to 2019", 
+       x = "Child's First Name", 
+       y = "Count") + 
+    theme_minimal()
+```
+
+
+-   We can see the top 10 names for each gender on horizontal axis from these two bar charts, and the frequency of each name displayed on vertical axis.
+
+
+
+Display the proportions of the name ‘Olivia’ in both Black non-Hispanic and White non-Hispanic groups
+
+```{r calculate ratio of Olivia in each ethnic group}
+#| echo: false
+#| 
+
+total_ef2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% summarise(total_BNH = sum(Count))
+
+total_count <- total_ef2$total_BNH
+
+freq_ef2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_BNH = sum(Count)) %>% ungroup()
+
+prop_ef2 <- freq_ef2 %>% mutate(prop_F_BNH = freqF_BNH / total_count) %>% filter(Child.s.First.Name == 'olivia')
+##-------------------------------------------------------------###
+
+total_ef4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% summarise(total_WNH = sum(Count))
+
+total_count4 <- total_ef4$total_WNH
+
+freq_ef4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "FEMALE") %>% group_by(Child.s.First.Name) %>% summarise(freqF_WNH = sum(Count)) %>% ungroup()
+
+prop_ef4 <- freq_ef4 %>% mutate(prop_F_WNH = freqF_WNH / total_count4) %>% filter(Child.s.First.Name == 'olivia')
+
+propData_ef2 <- data.frame(prop_ef2$Child.s.First.Name, prop_ef2$prop_F_BNH , prop_ef4$prop_F_WNH)
+colnames(propData_ef2) <- c("Child_Name", "Black non-Hispanic - Female", "White non-Hispanic - Female")
+
+```
+
+
+```{r}
+melt_prop2 <- melt(propData_ef2, id.vars = 'Child_Name')
+melt_prop2$variable <- as.character(melt_prop2$variable )
+
+
+ggplot(data = melt_prop2, aes(x = Child_Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Proportion of Olivia Between Black non-Hispanic and White non-Hispanic",
+       x = "Name",
+       y = "Proportion",
+       fill = "Ethnic Group")+
+  theme_minimal()
+```
+
+-  Interestingly, it appears that the White non-Hispanic group has a stronger preference for this name.
+
+
+```{r calculate ratio of commonlarity in WNH vs BNH for males}
+#| echo: false
+#| 
+
+
+
+total_em2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% summarise(total_BNH = sum(Count))
+
+total_count_em2 <- total_em2$total_BNH
+
+freq_em2 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "BLACK NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_BNH = sum(Count)) %>% ungroup()
+
+prop_em2 <- freq_em2 %>% mutate(prop_M_BNH = freqM_BNH / total_count) %>% 
+  select(Child.s.First.Name, prop_M_BNH) %>%  arrange(desc(prop_M_BNH))
+
+
+##-------------------------------------------------------------###
+
+total_em4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% summarise(total_WNH = sum(Count))
+
+total_count_em4 <- total_em4$total_WNH
+
+freq_em4 <- modified_data %>% select('Ethnicity', 'Gender' , 'Child.s.First.Name', 'Count') %>% filter(Ethnicity == "WHITE NON HISPANIC", Gender == "MALE") %>% group_by(Child.s.First.Name) %>% summarise(freqM_WNH = sum(Count)) %>% ungroup()
+
+prop_em4 <- freq_em4 %>% mutate(prop_M_WNH = freqM_WNH / total_count4) %>% 
+  select(Child.s.First.Name, prop_M_WNH) %>% arrange(desc(prop_M_WNH))
+
+
+
+##-------------------------------------------------------------###
+
+inner_em4 <- inner_join(prop_em2, prop_em4, by = "Child.s.First.Name") %>% 
+  filter(Child.s.First.Name %in%  c('david', 'jacob', 'michael', 'noah'))
+
+colnames(inner_em4) <- c("Child_Name", "Black non-Hispanic - Male", "White non-Hispanic - Male")
+
+```
+
+
+
+
+```{r}
+melt_prop4 <- melt(inner_em4, id.vars = 'Child_Name')
+melt_prop4$variable <- as.character(melt_prop4$variable )
+
+ggplot(data = melt_prop4, aes(x = Child_Name, y = value, fill = variable)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(title = "Proportion of Males Names Between Black non-Hispanic and White non-Hispanic",
+       subtitle = "within top 20", 
+       x = "Name",
+       y = "Proportion",
+       fill = "Ethnic Group")+
+  theme_minimal()
+```
+
+-  BNH prefers 'Noah' over WNH for naming a male baby. 
+
+
+
+The following figures display the average length names for each gender and ethnic group.
+
+```{r calculate average length of letters for names}
+#| echo: false
+
+library(stringr)
+# calculate the length of letter of each name
+length_data <- modified_data %>% mutate(N.Length = str_count(Child.s.First.Name, "[A-Za-z]")) %>% mutate(T.length = Count * N.Length) 
+# calculate the average number of letters in each year for males and females
+avglength_data <- length_data  %>% group_by(Year.of.Birth, Gender) %>% 
+  summarise(Avg.Letters = mean(N.Length, na.rm = TRUE), .groups = "drop") %>% 
+  arrange(Year.of.Birth, Gender)
+# calculate the average number of letters in each year for each ethnic groups
+avglength_data_ethnic <- length_data  %>% group_by(Year.of.Birth, Ethnicity) %>% 
+  summarise(Avg.Letters = mean(N.Length, na.rm = TRUE), .groups = "drop") %>% 
+  arrange(Year.of.Birth, Ethnicity)
+
+```
+
+
+
+```{r}
+#| label: fig-AverageLength1
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "Average Length of First Names for Males and Females"
+#| echo: false
+
+
+ggplot(data = avglength_data, aes(x = Year.of.Birth, y = Avg.Letters, color = Gender, group = Gender)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = seq(2011, 2019, by=1), limits = c(2011, 2019)) +
+  labs(title = "Average Number of Letters in Babies' Name by Gender", 
+       subtitle = "from 2011 to 2019", 
+       x = "Year", 
+       y = "Average Number of Letters") + 
+    theme_minimal()
+```
+
+
+```{r}
+#| label: fig-AverageLength2
+#| fig-width: 8
+#| fig-height: 4 
+#| out-width: 80%  
+#| fig-cap: "Average Length of First Names for Different Ethnic Groups"
+#| echo: false
+
+
+ggplot(data = avglength_data_ethnic, aes(x = Year.of.Birth, y = Avg.Letters, color = Ethnicity, group = Ethnicity)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = seq(2011, 2019, by=1), limits = c(2011, 2019)) +
+  labs(title = "Average Number of Letters in Babies' Name by Ethnicity", 
+       subtitle = "from 2011 to 2019", 
+       x = "Year", 
+       y = "Average Number of Letters") + 
+    theme_minimal()
+```
+
+
+-   overall, the average length of names has generally decreased over time 
+-   trend is a growing preference for shorter names 
+-   "Short Names Are Long on Earning Power"
+
+
+## Data Analysis Continued {.smaller}
+
+-   The following plots clearly show the trend of the most popular baby names for both males and females over the years for each ethnic group.
+
+```{r}
+top10_names <- modified_data %>% filter(Rank %in% c(1:10))
+```
+
+```{r}
+df1 <- top10_names %>% filter(Gender == "MALE", Rank == 1) 
+
+ggplot(df1, aes(x = Year.of.Birth, y = Count, color = Ethnicity, fill = Ethnicity )) +
+  geom_line(linetype = "solid", size = 1.5) +
+  geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.15, color = "blue", size = 3) +
+  guides(fill = guide_legend(override.aes = aes(color = NA))) +
+  scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
+  scale_y_continuous(breaks = seq(100, 450, by=50))+
+  labs(title = "Most popular names for males by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
+```
+
+```{r}
+df1 <- top10_names %>% filter(Gender == "FEMALE", Rank == 1) 
+
+ggplot(df1, aes(x = Year.of.Birth, y = Count, fill = Ethnicity, color = Ethnicity )) +
+  geom_line(linetype = "solid", size = 1.5) +
+  geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.15, color = "blue", size = 3) +
+  guides(fill = guide_legend(override.aes = aes(color = NA))) +
+  scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019)) +
+  scale_y_continuous(breaks = seq(100, 450, by=50))+
+  labs(title = "Most popular names for females by Ethnicity", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency")
+```
+
+*Through these plots, we visualize the dynamic trends in name popularity, revealing notable spikes or dips in specific years. They showcase the evolving patterns in name selection, providing a comprehensive view of how naming preferences evolve over time.*
+
+-   The next plot illustrates the most popular names for babies, regardless of their gender, across different years.
+
+```{r}
+#A function to find the most popular names of MALES and FEMALE (Not considering the ethnicity) 
+
+#Note: Planning on trying to improve this function.
+find_popular_names <- function() {
+  
+df1 <- top10_names %>% filter(Rank == 1, Gender == "MALE" ) %>% 
+group_by(Year.of.Birth,Gender,Child.s.First.Name) %>% 
+summarise(freq = sum(Count), .groups = "drop")
+
+df <- data.frame("Child.s.First.Name" = character(0), "freq"  = numeric(0))
+years <- unique(df1$Year.of.Birth)
+  
+for (i in 1:length(years)) {
+  df0 <- df1 %>% filter(Year.of.Birth == years[i])
+    
+  row <- df0[df0$freq == max(df0$freq), ]
+    
+  df <- rbind(df, row)
+    
+}
+  
+
+df1 <- top10_names %>% filter(Rank == 1, Gender == "FEMALE" ) %>% 
+group_by(Year.of.Birth,Gender,Child.s.First.Name) %>% 
+  summarise(freq = sum(Count), .groups = "drop")
+
+for (i in 1:length(years)) {
+  df0 <- df1 %>% filter(Year.of.Birth == years[i])
+    
+  row <- df0[df0$freq == max(df0$freq), ]
+    
+  df <- rbind(df, row)
+    
+  }
+
+return(df)
+  
+}
+
+df <- find_popular_names()
+
+
+
+
+
+
+```
+
+```{r, warning=FALSE}
+ggplot(df, aes(x = Year.of.Birth, y = freq, fill=Gender, color = Gender)) +
+  geom_line(linetype = "solid", size = 1.5) +
+   scale_x_discrete(limits = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019))+
+  geom_label(aes(label = c(Child.s.First.Name)), nudge_x = 0.25, nudge_y = 0.15, color = "blue", size = 3) +
+  guides(fill = guide_legend(override.aes = aes(color = NA))) +
+
+  scale_y_continuous(breaks = seq(100, 650, by=50))+
+  labs(title = "Most popular names for each Gender", subtitle = "(2011 - 2019)", x = "Birth Year", y = "Frequency") 
+```
+
+-   *The names **Jayden** and **Liam** held the top positions as the most popular choices for baby boys across diverse ethnicities from 2011 to 2019. Meanwhile, **Isabella**, **Olivia** , and **Esther** emerged as the favored names for baby girls during the same period. This trend persisted regardless of cultural backgrounds.*
+
+-   *A search engine query for the most popular baby names in the United States consistently showcased **Liam** as the leading choice for boys and **Olivia** as the foremost pick for girls. Our analysis aligns with these findings, reflecting a parallel preference for these names across the nation.*
+
+**Word cloud**
+
+Creating a word cloud for the popular baby names for each gender
+
+```{r word cloud}
+
+
+modified_data %>% 
+  filter(Gender == "MALE" & Rank %in% c(1:100)) %>% 
+  group_by(Child.s.First.Name) %>% 
+  summarise(freq = sum(Count)) %>% arrange(desc(freq)) %>% 
+  head(100) %>% 
+  with(wordcloud(Child.s.First.Name, freq, max.words = 100, 
+                 scale = c(2, 0.5), 
+                 colors = brewer.pal(8, "Dark2")))
+title(main = "Most popolar baby names for males")
+```
+
+```{r}
+
+
+
+modified_data %>% 
+  filter(Gender == "FEMALE" & Rank %in% c(1:100)) %>% 
+  group_by(Child.s.First.Name) %>% 
+  summarise(freq = sum(Count)) %>% arrange(desc(freq)) %>% 
+  head(100) %>% 
+  with(wordcloud(Child.s.First.Name, freq, max.words = 100, 
+                 scale = c(2, 0.5), 
+                 colors = brewer.pal(8, "Dark2")))
+title(main = "Most popolar baby names for females")
+```
+
+-   *A word cloud is a visual representation of text data. Typically, the more frequently a word appears in the source material, the larger and more prominently it is displayed in the word cloud.*
+
+-   *The word clouds displaying popular names for boys and girls highlight a clear trend: a small group of names appears frequently, while many others show up less often. This suggests that a handful of names are super popular, while the rest are not as commonly used in the dataset.*
+
+## Conclusion {.smaller}
+
+-   Different ethnic groups, particularly White Non-Hispanic and Black Non-Hispanic, use different baby names, and it reflects diverse cultures. 
+
+-   There has been a noticeable decrease in the average length of names over time, with a growing preference for shorter names. 
+
+-   Across diverse ethnicities from 2011 to 2019, the names `Jayden` and `Liam` were widely favored for baby boys, while `Isabella`, `Olivia`, and `Esther` were popular choices for baby girls. 
+
+-   A consistent trend observed through search engine queries on popular baby names in the United States reaffirmed Liam's prominence among boys and Olivia's popularity among girls. 
