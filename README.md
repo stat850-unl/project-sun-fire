@@ -13,8 +13,8 @@ We want to see the top 10 popular first names in each ethnic group and each gend
 
 [Project Proposal](proposal.qmd)
 
-[Project Presentation]() <!-- Add a link to your Youtube presentation -->
+[Project Presentation](https://www.youtube.com/watch?v=4gfZpCIX064) 
 
-[Presentation Visual Aid](slides_Samitha_Fangfang.qmd) <!-- Change this to link to your visual aid -->
+[Presentation Visual Aid](slides_Samitha_Fangfang.qmd) 
 
 [Project Report](report.qmd)
